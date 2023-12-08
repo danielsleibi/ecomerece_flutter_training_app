@@ -1,10 +1,10 @@
-import 'package:ecommerce_task/category_card.dart';
-import 'package:ecommerce_task/ecommerce_button.dart';
+import 'package:ecommerce_task/widgets/category_card.dart';
+import 'package:ecommerce_task/widgets/ecommerce_textfield.dart';
 import 'package:ecommerce_task/models/category_model.dart';
 import 'package:ecommerce_task/models/product_model.dart';
-import 'package:ecommerce_task/on_boarding_page_header.dart';
-import 'package:ecommerce_task/product_card.dart';
-import 'package:ecommerce_task/signup_page.dart';
+import 'package:ecommerce_task/widgets/on_boarding_page_header.dart';
+import 'package:ecommerce_task/widgets/product_card.dart';
+import 'package:ecommerce_task/pages/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -17,58 +17,39 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
+
+
   List<ProductModel> productsList = [
     ProductModel(
-        name: 'Bluetooth Printer',
-        price: '\$200.75',
+        name: 'IPhone 15 Pro Max',
+        price: '\$1200.0',
         imageURL:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzzILzJfqwxfKlI7GGeA05fXQ2XlNx0FRZpw&usqp=CAU'),
+            'https://media.istockphoto.com/id/1426145822/photo/iphone-14-pro-home-screen-with-app-icons.jpg?s=612x612&w=0&k=20&c=oJOjfGgBYg8m1G3VjZL70b8M8I2bSGPC8kdgbosWLws='),
+    ProductModel(
+        name: 'MacBook Pro',
+        price: '\$1999.99',
+        imageURL:
+            'https://media.istockphoto.com/id/1816802404/photo/apple-macbook-pro-15-inch-laptop.jpg?s=612x612&w=0&k=20&c=7QlgjZyh5u8Krm7j6yC9Kak8DbmeiWwJRguWrKIC0cU='),
     ProductModel(
         name: 'Bluetooth Printer',
         price: '\$200.75',
         imageURL:
             'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzzILzJfqwxfKlI7GGeA05fXQ2XlNx0FRZpw&usqp=CAU'),
-    ProductModel(
-        name: 'Bluetooth Printer',
-        price: '\$200.75',
-        imageURL:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzzILzJfqwxfKlI7GGeA05fXQ2XlNx0FRZpw&usqp=CAU'),
-    // ProductModel(
-    //     name: 'Bluetooth Printer',
-    //     price: '\$200.75',
-    //     imageURL:
-    //     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzzILzJfqwxfKlI7GGeA05fXQ2XlNx0FRZpw&usqp=CAU'),
-    // ProductModel(
-    //     name: 'Bluetooth Printer',
-    //     price: '\$200.75',
-    //     imageURL:
-    //     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzzILzJfqwxfKlI7GGeA05fXQ2XlNx0FRZpw&usqp=CAU'),
-    // ProductModel(
-    //     name: 'Bluetooth Printer',
-    //     price: '\$200.75',
-    //     imageURL:
-    //     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzzILzJfqwxfKlI7GGeA05fXQ2XlNx0FRZpw&usqp=CAU'),
-    // ProductModel(
-    //     name: 'Bluetooth Printer',
-    //     price: '\$200.75',
-    //     imageURL:
-    //     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzzILzJfqwxfKlI7GGeA05fXQ2XlNx0FRZpw&usqp=CAU')
   ];
 
   List<CategoryModel> categoryList = [
     CategoryModel(
         name: 'Computers',
         imageURL:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzzILzJfqwxfKlI7GGeA05fXQ2XlNx0FRZpw&usqp=CAU'),
+            'https://media.istockphoto.com/id/1249219777/photo/shopping-online-concept-parcel-or-paper-cartons-with-a-shopping-cart-logo-in-a-trolley-on-a.jpg?s=612x612&w=0&k=20&c=EWKEahyVLY8iAHyirCCDESHRGW37lqUJ7In0SssNSLE='),
     CategoryModel(
         name: 'Phones & Accessories',
         imageURL:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzzILzJfqwxfKlI7GGeA05fXQ2XlNx0FRZpw&usqp=CAU'),
+            'https://media.istockphoto.com/id/1336136316/photo/woman-online-shopping-on-smart-phone-fashion-clothes-at-home.jpg?s=612x612&w=0&k=20&c=PYDR6zm5uC84qF-6a1dI8G5uXWrTg0wWMcjHSewsAM8='),
     CategoryModel(
         name: 'Blah blah',
         imageURL:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzzILzJfqwxfKlI7GGeA05fXQ2XlNx0FRZpw&usqp=CAU')
+            'https://media.istockphoto.com/id/1311600080/photo/small-shipping-packages-on-a-notebook-with-the-inscription-online-shopping.jpg?s=612x612&w=0&k=20&c=vDPqIQsqzCvEaEZF2R5IeGz_8Gv-YRI_HzbKux8TaqM=')
   ];
   Widget buildActionButton(
       IconData icon, double paddingRight, double paddingLeft) {
@@ -86,9 +67,7 @@ class _HomePageState extends State<HomePage> {
           shadowColor: Colors.black,
           backgroundColor: Color.fromRGBO(255, 255, 255, 1),
         ),
-        child: Icon(
-          icon
-        ), // Icon inside the button
+        child: Icon(icon), // Icon inside the button
       ),
     );
   }
@@ -97,11 +76,6 @@ class _HomePageState extends State<HomePage> {
     return TextStyle(fontSize: 19, fontWeight: FontWeight.bold);
   }
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
   Widget buildSearchBar(BuildContext context) {
     return Expanded(
@@ -150,8 +124,18 @@ class _HomePageState extends State<HomePage> {
           padding: EdgeInsets.only(left: 16.0, bottom: 18.0, top: 22.0),
           child: Align(
               alignment: Alignment.centerLeft,
-              child: Text(title,
-                  style: getTitleTextStyle(), textAlign: TextAlign.left))),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(title,
+                      style: getTitleTextStyle(), textAlign: TextAlign.left),
+                  const Padding(
+                    padding: EdgeInsets.only(right: 10.0),
+                    child:
+                        Text('See more', style: TextStyle(color: Colors.grey)),
+                  )
+                ],
+              ))),
       SizedBox(
           height: 175,
           child: ListView.builder(
@@ -162,11 +146,18 @@ class _HomePageState extends State<HomePage> {
                 String imageURL = products[index].imageURL;
                 return Padding(
                     padding: EdgeInsets.only(left: 10.0),
-                    child: ProductCard(
-                        name: name,
-                        price: price,
-                        imageURL: imageURL,
-                        size: 100));
+                    child: GestureDetector(
+                      onTap: () {
+                        const snackBar = SnackBar(content: Text('Tap'));
+
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      },
+                      child: ProductCard(
+                          name: name,
+                          price: price,
+                          imageURL: imageURL,
+                          size: 100),
+                    ));
               },
               itemCount: products.length))
     ]));
@@ -180,8 +171,17 @@ class _HomePageState extends State<HomePage> {
           padding: EdgeInsets.only(left: 16.0, bottom: 18.0),
           child: Align(
               alignment: Alignment.centerLeft,
-              child: Text(title,
-                  style: getTitleTextStyle(), textAlign: TextAlign.left))),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(title,
+                      style: getTitleTextStyle(), textAlign: TextAlign.left),
+                  const Padding(
+                    padding: EdgeInsets.only(right: 10.0),
+                    child:  Text('See more', style: TextStyle(color: Colors.grey)),
+                  )
+                ],
+              ))),
       SizedBox(
           height: 100,
           child: ListView.builder(
@@ -200,59 +200,28 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: SingleChildScrollView(
-          child: Column(children: [
-        Padding(
-          padding: EdgeInsets.only(bottom: 35.0),
-          child: Row(
-            children: [
-              buildSearchBar(context),
-              buildActionButton(Icons.shopping_cart_outlined, 0.0, 0.0),
-              buildActionButton(Icons.notifications_outlined, 0.0, 0.0)
-            ],
+    return SingleChildScrollView(
+        child: Column(children: [
+          Padding(
+            padding: EdgeInsets.only(bottom: 35.0),
+            child: Row(
+              children: [
+                buildSearchBar(context),
+                buildActionButton(Icons.shopping_cart_outlined, 0.0, 0.0),
+                buildActionButton(Icons.notifications_outlined, 0.0, 0.0)
+              ],
+            ),
           ),
-        ),
-        buildCategorySection(context, categoryList, 'Special for you'),
-        buildProductSection(context, productsList, 'Featured Products'),
-        buildProductSection(
-            context, productsList + productsList, 'Best Selling Products'),
-        buildProductSection(context, productsList, 'Best Selling Products'),
-        buildProductSection(context, productsList, 'Best Selling Products'),
-        buildProductSection(context, productsList + productsList + productsList,
-            'Best Selling Products'),
-        buildProductSection(context, productsList, 'Best Selling Products'),
-      ])),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.border_all_rounded),
-            label: 'Product List',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.heart_broken),
-            label: 'Favorites',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle_outlined),
-            label: 'Account',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.purpleAccent,
-        unselectedItemColor: Colors.grey,
-        onTap: _onItemTapped,
-      ),
-    );
+          buildCategorySection(context, categoryList, 'Special for you'),
+          buildProductSection(context, productsList, 'Featured Products'),
+          buildProductSection(
+              context, productsList + productsList, 'Best Selling Products'),
+          buildProductSection(context, productsList, 'Best Selling Products'),
+          buildProductSection(context, productsList, 'Best Selling Products'),
+          buildProductSection(context, productsList + productsList + productsList,
+              'Best Selling Products'),
+          buildProductSection(context, productsList, 'Best Selling Products'),
+        ]));
   }
 }
 

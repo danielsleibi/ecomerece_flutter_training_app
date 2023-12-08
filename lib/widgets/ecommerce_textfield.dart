@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
 class EcommerceButton extends StatefulWidget {
-  const EcommerceButton({super.key, required this.title, required this.hint, this.isPasswordField=false});
+  const EcommerceButton(
+      {super.key,
+      required this.title,
+      required this.hint,
+      this.isPasswordField = false});
   final String title;
   final String hint;
   final bool isPasswordField;
@@ -11,7 +15,6 @@ class EcommerceButton extends StatefulWidget {
 }
 
 class _EcommerceButtonState extends State<EcommerceButton> {
-
   @override
   Widget build(BuildContext context) {
     return Column(children: [
@@ -38,19 +41,19 @@ class _EcommerceButtonState extends State<EcommerceButton> {
           child: SizedBox(
               height: 50.0,
               child: TextField(
-                obscureText: widget.isPasswordField,
+                  obscureText: widget.isPasswordField,
                   decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.white,
-                hintText: widget.hint,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: const BorderSide(
-                    width: 0,
-                    style: BorderStyle.none,
-                  ),
-                ),
-              ))))
+                    filled: true,
+                    fillColor: Colors.white,
+                    hintText: widget.hint,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: const BorderSide(
+                        width: 0,
+                        style: BorderStyle.none,
+                      ),
+                    ),
+                  ))))
     ]);
   }
 }

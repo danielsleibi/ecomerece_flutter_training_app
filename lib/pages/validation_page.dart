@@ -1,7 +1,7 @@
-import 'package:ecommerce_task/ecommerce_button.dart';
-import 'package:ecommerce_task/login_page.dart';
-import 'package:ecommerce_task/on_boarding_page_header.dart';
-import 'package:ecommerce_task/pin_input.dart';
+import 'package:ecommerce_task/widgets/ecommerce_textfield.dart';
+import 'package:ecommerce_task/pages/login_page.dart';
+import 'package:ecommerce_task/widgets/on_boarding_page_header.dart';
+import 'package:ecommerce_task/widgets/pin_input.dart';
 import 'package:flutter/material.dart';
 
 class ValidationPage extends StatefulWidget {

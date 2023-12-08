@@ -1,7 +1,8 @@
-import 'package:ecommerce_task/ecommerce_button.dart';
-import 'package:ecommerce_task/home_page.dart';
-import 'package:ecommerce_task/on_boarding_page_header.dart';
-import 'package:ecommerce_task/signup_page.dart';
+import 'package:ecommerce_task/pages/base_loggedin_page.dart';
+import 'package:ecommerce_task/widgets/ecommerce_textfield.dart';
+import 'package:ecommerce_task/pages/home_page.dart';
+import 'package:ecommerce_task/widgets/on_boarding_page_header.dart';
+import 'package:ecommerce_task/pages/signup_page.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -102,7 +103,7 @@ class _MyHomePageState extends State<LoginPage> {
                               Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => HomePage(title: '')),
+                                    builder: (context) => BaseLoggedInPage()),
                                     (Route<dynamic> route) => false,
                               );
                             },

@@ -9,51 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 class CategoriesPage extends StatefulWidget {
-  const CategoriesPage({super.key});
-
+  const CategoriesPage({super.key, required this.categoryList});
+  final List<CategoryModel> categoryList;
   @override
   State<CategoriesPage> createState() => _CategoriesPageState();
 }
 
 class _CategoriesPageState extends State<CategoriesPage> {
-  List<CategoryModel> categoryList = [
-    CategoryModel(
-        name: 'Computers',
-        imageURL:
-            'https://media.istockphoto.com/id/1249219777/photo/shopping-online-concept-parcel-or-paper-cartons-with-a-shopping-cart-logo-in-a-trolley-on-a.jpg?s=612x612&w=0&k=20&c=EWKEahyVLY8iAHyirCCDESHRGW37lqUJ7In0SssNSLE='),
-    CategoryModel(
-        name: 'Phones & Accessories',
-        imageURL:
-            'https://media.istockphoto.com/id/1336136316/photo/woman-online-shopping-on-smart-phone-fashion-clothes-at-home.jpg?s=612x612&w=0&k=20&c=PYDR6zm5uC84qF-6a1dI8G5uXWrTg0wWMcjHSewsAM8='),
-    CategoryModel(
-        name: 'Blah blah',
-        imageURL:
-            'https://media.istockphoto.com/id/1311600080/photo/small-shipping-packages-on-a-notebook-with-the-inscription-online-shopping.jpg?s=612x612&w=0&k=20&c=vDPqIQsqzCvEaEZF2R5IeGz_8Gv-YRI_HzbKux8TaqM='),
-    CategoryModel(
-        name: 'Blah blah',
-        imageURL:
-        'https://media.istockphoto.com/id/1311600080/photo/small-shipping-packages-on-a-notebook-with-the-inscription-online-shopping.jpg?s=612x612&w=0&k=20&c=vDPqIQsqzCvEaEZF2R5IeGz_8Gv-YRI_HzbKux8TaqM='),
-    CategoryModel(
-        name: 'Computers',
-        imageURL:
-        'https://media.istockphoto.com/id/1249219777/photo/shopping-online-concept-parcel-or-paper-cartons-with-a-shopping-cart-logo-in-a-trolley-on-a.jpg?s=612x612&w=0&k=20&c=EWKEahyVLY8iAHyirCCDESHRGW37lqUJ7In0SssNSLE='),
-    CategoryModel(
-        name: 'Phones & Accessories',
-        imageURL:
-        'https://media.istockphoto.com/id/1336136316/photo/woman-online-shopping-on-smart-phone-fashion-clothes-at-home.jpg?s=612x612&w=0&k=20&c=PYDR6zm5uC84qF-6a1dI8G5uXWrTg0wWMcjHSewsAM8='),
-    CategoryModel(
-        name: 'Blah blah',
-        imageURL:
-        'https://media.istockphoto.com/id/1311600080/photo/small-shipping-packages-on-a-notebook-with-the-inscription-online-shopping.jpg?s=612x612&w=0&k=20&c=vDPqIQsqzCvEaEZF2R5IeGz_8Gv-YRI_HzbKux8TaqM='),
-    CategoryModel(
-        name: 'Blah blah',
-        imageURL:
-        'https://media.istockphoto.com/id/1311600080/photo/small-shipping-packages-on-a-notebook-with-the-inscription-online-shopping.jpg?s=612x612&w=0&k=20&c=vDPqIQsqzCvEaEZF2R5IeGz_8Gv-YRI_HzbKux8TaqM='),
-    CategoryModel(
-        name: 'Phones & Accessories',
-        imageURL:
-        'https://media.istockphoto.com/id/1336136316/photo/woman-online-shopping-on-smart-phone-fashion-clothes-at-home.jpg?s=612x612&w=0&k=20&c=PYDR6zm5uC84qF-6a1dI8G5uXWrTg0wWMcjHSewsAM8='),
-  ];
+
 
   TextStyle getTitleTextStyle() {
     return TextStyle(fontSize: 19, fontWeight: FontWeight.bold);
@@ -101,28 +64,27 @@ class _CategoriesPageState extends State<CategoriesPage> {
   Widget buildCategorySection(
       BuildContext context, List<CategoryModel> categories, String title) {
     return ListView.builder(
-        itemBuilder: (context, index)
-        {
+        itemBuilder: (context, index) {
           if (index * 2 >= categories.length) {
             return Padding(
-              padding: EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
-              child: Row(
-                children: [
-              Expanded(
-              child: CategoryCard(
-              name: categories[index].name,
-                imageURL: categories[index].imageURL,
-                isSized: false,
-              ),
-            )]));
+                padding: EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
+                child: Row(children: [
+                  Expanded(
+                    child: CategoryCard(
+                      name: categories[index].name,
+                      imageURL: categories[index].imageURL,
+                      isSized: false,
+                    ),
+                  )
+                ]));
           }
           String name = categories[index * 2].name;
           String imageURL = categories[index * 2].imageURL;
           String name2 = '';
           String imageURL2 = '';
-          if ((index  * 2 + 1) < categories.length) {
-            name2 = categories[index  * 2 + 1].name;
-            imageURL2 = categories[index  * 2 + 1].imageURL;
+          if ((index * 2 + 1) < categories.length) {
+            name2 = categories[index * 2 + 1].name;
+            imageURL2 = categories[index * 2 + 1].imageURL;
           }
 
           return Padding(
@@ -164,7 +126,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
         ),
       ),
       Expanded(
-          child: buildCategorySection(context, categoryList, 'Special for you'))
+          child: buildCategorySection(context, widget.categoryList, 'Special for you'))
     ]);
   }
 }

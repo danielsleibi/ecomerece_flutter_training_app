@@ -44,6 +44,23 @@ class _BaseLoggedInPageState extends State<BaseLoggedInPage> {
   ];
 
 
+
+  List<CategoryModel> categoryList = [
+    CategoryModel(
+        name: 'Computers',
+        imageURL:
+        'https://media.istockphoto.com/id/1249219777/photo/shopping-online-concept-parcel-or-paper-cartons-with-a-shopping-cart-logo-in-a-trolley-on-a.jpg?s=612x612&w=0&k=20&c=EWKEahyVLY8iAHyirCCDESHRGW37lqUJ7In0SssNSLE='),
+    CategoryModel(
+        name: 'Phones & Accessories',
+        imageURL:
+        'https://media.istockphoto.com/id/1336136316/photo/woman-online-shopping-on-smart-phone-fashion-clothes-at-home.jpg?s=612x612&w=0&k=20&c=PYDR6zm5uC84qF-6a1dI8G5uXWrTg0wWMcjHSewsAM8='),
+    CategoryModel(
+        name: 'Blah blah',
+        imageURL:
+        'https://media.istockphoto.com/id/1311600080/photo/small-shipping-packages-on-a-notebook-with-the-inscription-online-shopping.jpg?s=612x612&w=0&k=20&c=vDPqIQsqzCvEaEZF2R5IeGz_8Gv-YRI_HzbKux8TaqM=')
+  ];
+
+
   int _selectedIndex = 0;
   late List<Widget> _children;
 
@@ -51,8 +68,8 @@ class _BaseLoggedInPageState extends State<BaseLoggedInPage> {
   void initState() {
     super.initState();
     _children = [
-      HomePage(productsList: productsList),
-      CategoriesPage(),
+      HomePage(productsList: productsList, categoryList: categoryList),
+      CategoriesPage(categoryList: categoryList),
       SearchPage(productsList: productsList),
       WhishlistPage(productsList: productsList),
       ProfilePage()
@@ -88,7 +105,7 @@ class _BaseLoggedInPageState extends State<BaseLoggedInPage> {
       appBar: AppBar(
         title: Text(_childrenTitles.length > _selectedIndex ? _childrenTitles[_selectedIndex] : _childrenTitles[0], style: TextStyle(fontWeight: FontWeight.bold),),
       ),
-      body: _children.length > _selectedIndex ? _children[_selectedIndex] : _children[0],
+      body: SafeArea(child: _children.length > _selectedIndex ? _children[_selectedIndex] : _children[0]),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(

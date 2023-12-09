@@ -10,8 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key, required this.productsList});
+  const HomePage({super.key, required this.productsList, required this.categoryList});
   final  List<ProductModel> productsList;
+  final List<CategoryModel> categoryList;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -19,21 +20,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-
-  List<CategoryModel> categoryList = [
-    CategoryModel(
-        name: 'Computers',
-        imageURL:
-            'https://media.istockphoto.com/id/1249219777/photo/shopping-online-concept-parcel-or-paper-cartons-with-a-shopping-cart-logo-in-a-trolley-on-a.jpg?s=612x612&w=0&k=20&c=EWKEahyVLY8iAHyirCCDESHRGW37lqUJ7In0SssNSLE='),
-    CategoryModel(
-        name: 'Phones & Accessories',
-        imageURL:
-            'https://media.istockphoto.com/id/1336136316/photo/woman-online-shopping-on-smart-phone-fashion-clothes-at-home.jpg?s=612x612&w=0&k=20&c=PYDR6zm5uC84qF-6a1dI8G5uXWrTg0wWMcjHSewsAM8='),
-    CategoryModel(
-        name: 'Blah blah',
-        imageURL:
-            'https://media.istockphoto.com/id/1311600080/photo/small-shipping-packages-on-a-notebook-with-the-inscription-online-shopping.jpg?s=612x612&w=0&k=20&c=vDPqIQsqzCvEaEZF2R5IeGz_8Gv-YRI_HzbKux8TaqM=')
-  ];
   Widget buildActionButton(
       IconData icon, double paddingRight, double paddingLeft) {
     return Padding(
@@ -48,7 +34,7 @@ class _HomePageState extends State<HomePage> {
           padding: EdgeInsets.all(15), // Adjust padding as needed
           elevation: 2, // Shadow depth
           shadowColor: Colors.black,
-          backgroundColor: Color.fromRGBO(255, 255, 255, 1),
+          backgroundColor:Colors.white,
         ),
         child: Icon(icon), // Icon inside the button
       ),
@@ -203,7 +189,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      buildCategorySection(context, categoryList, 'Special for you'),
+      buildCategorySection(context, widget.categoryList, 'Special for you'),
       buildProductSection(context, productsList, 'Featured Products'),
       buildProductSection(
           context, productsList + productsList, 'Best Selling Products'),

@@ -25,6 +25,27 @@ class _SearchPageState extends State<SearchPage> {
     return TextStyle(fontSize: 19, fontWeight: FontWeight.bold);
   }
 
+  Widget buildActionButton(
+      IconData icon, double paddingRight, double paddingLeft) {
+    return Padding(
+      padding: EdgeInsets.only(right: paddingRight, left: paddingLeft),
+      child: ElevatedButton(
+        onPressed: () {
+          // Action to perform when the button is pressed
+          print('IconButton pressed!');
+        },
+        style: ElevatedButton.styleFrom(
+          shape: CircleBorder(),
+          padding: EdgeInsets.all(15), // Adjust padding as needed
+          elevation: 2, // Shadow depth
+          shadowColor: Colors.black,
+          backgroundColor:Colors.white,
+        ),
+        child: Icon(icon), // Icon inside the button
+      ),
+    );
+  }
+
   Widget buildSearchBar(BuildContext context) {
     return Expanded(
       child: Padding(
@@ -108,6 +129,7 @@ class _SearchPageState extends State<SearchPage> {
         child: Row(
           children: [
             buildSearchBar(context),
+            buildActionButton(Icons.filter_list_outlined, 0.0, 0.0)
           ],
         ),
       ),

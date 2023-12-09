@@ -1,20 +1,24 @@
+import 'package:ecommerce_task/models/cart_model.dart';
 import 'package:flutter/material.dart';
 
-class ProductCard2 extends StatelessWidget {
+import '../models/product_model.dart';
+
+class ProductCard2 extends StatefulWidget {
   const ProductCard2(
       {super.key,
-      required this.name,
-      required this.price,
-      required this.imageURL,
+      required this.productModel,
       this.size = 100,
-      this.fav = false});
+      this.cart_mode = false});
 
-  final String name;
-  final String price;
-  final String imageURL;
+  final ProductModel productModel;
   final double size;
-  final bool fav;
+  final bool cart_mode;
 
+  @override
+  State<ProductCard2> createState() => _ProductCard2State();
+}
+
+class _ProductCard2State extends State<ProductCard2> {
   TextStyle getNameTextStyle() {
     return TextStyle(fontSize: 15.0, fontWeight: FontWeight.w500);
   }
@@ -26,11 +30,12 @@ class ProductCard2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    CartModel cart = CartModel.instance;
     return Container(
-        width: size,
+        width: widget.size,
         decoration: BoxDecoration(
           // border: Border.all(color: Colors.grey),
-              borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          borderRadius: BorderRadius.all(Radius.circular(15.0)),
           color: Colors.white,
           boxShadow: [
             BoxShadow(
@@ -43,19 +48,22 @@ class ProductCard2 extends StatelessWidget {
         ),
         child: Row(children: [
           Container(
-              width: size,
-              height: size,
+              width: widget.size,
+              height: widget.size,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(15.0), bottomLeft: Radius.circular(15.0)),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(15.0),
+                      bottomLeft: Radius.circular(15.0)),
                   image: DecorationImage(
-                      image: NetworkImage(imageURL), fit: BoxFit.cover)),
+                      image: NetworkImage(widget.productModel.imageURL),
+                      fit: BoxFit.cover)),
               child: Align(
                 alignment: Alignment.bottomRight,
                 child: Image.asset(
                   'images/heart_icon.png',
                   width: 25, // Set width as needed
                   height: 25, // Set height as needed
-                  color: fav ? Colors.red : Colors.grey,
+                  color: widget.productModel.fav ? Colors.red : Colors.grey,
                 ),
               )),
           SizedBox(width: 20.0),
@@ -65,23 +73,72 @@ class ProductCard2 extends StatelessWidget {
               SizedBox(
                   height: 50,
                   child: Text(
-                    name,
+                    widget.productModel.name,
                     style: getNameTextStyle(),
                     textAlign: TextAlign.left,
                   )),
               SizedBox(
                   height: 25,
                   child: Text(
-                    price,
+                    '\$${widget.productModel.priceInDollar}',
                     style: getPriceTextStyle(),
                     textAlign: TextAlign.left,
                   )),
             ],
           ),
           Expanded(child: SizedBox()),
-          Padding(
-            padding: const EdgeInsets.only(right:16.0),
-            child: Icon(Icons.add_shopping_cart, color: Colors.purple,),
+          Visibility(
+            visible: !widget.cart_mode,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 16.0),
+              child: GestureDetector(
+                onTap: () {
+                  if (cart.isInCart(widget.productModel)) {
+                    setState(() {
+                      cart.removeFromCart(widget.productModel);
+                    });
+
+                    return;
+                  }
+                  setState(() {
+                    cart.addToCart(widget.productModel);
+                  });
+                },
+                child: Icon(
+                  cart.isInCart(widget.productModel)
+                      ? Icons.remove_shopping_cart_outlined
+                      : Icons.add_shopping_cart,
+                  color: Colors.purple,
+                ),
+              ),
+            ),
+          ),
+          Visibility(
+            visible: widget.cart_mode,
+            child: Padding(
+                padding: const EdgeInsets.only(right: 16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          cart.addOneMoreFor(widget.productModel);
+                        });
+                      },
+                      child: Icon(Icons.add),
+                    ),
+                    Text('${cart.getQuantityFor(widget.productModel)}'),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          cart.removeOneLessFor(widget.productModel);
+                        });
+                      },
+                      child: Icon(Icons.remove),
+                    )
+                  ],
+                )),
           ),
         ]));
   }

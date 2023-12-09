@@ -1,3 +1,4 @@
+import 'package:ecommerce_task/pages/cart_page.dart';
 import 'package:ecommerce_task/pages/product_page.dart';
 import 'package:ecommerce_task/widgets/category_card.dart';
 import 'package:ecommerce_task/widgets/ecommerce_textfield.dart';
@@ -10,8 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key, required this.productsList, required this.categoryList});
-  final  List<ProductModel> productsList;
+  const HomePage(
+      {super.key, required this.productsList, required this.categoryList});
+  final List<ProductModel> productsList;
   final List<CategoryModel> categoryList;
 
   @override
@@ -19,22 +21,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   Widget buildActionButton(
-      IconData icon, double paddingRight, double paddingLeft) {
+      IconData icon, double paddingRight, double paddingLeft, onPress) {
     return Padding(
       padding: EdgeInsets.only(right: paddingRight, left: paddingLeft),
       child: ElevatedButton(
-        onPressed: () {
-          // Action to perform when the button is pressed
-          print('IconButton pressed!');
-        },
+        onPressed: onPress,
         style: ElevatedButton.styleFrom(
           shape: CircleBorder(),
           padding: EdgeInsets.all(15), // Adjust padding as needed
           elevation: 2, // Shadow depth
           shadowColor: Colors.black,
-          backgroundColor:Colors.white,
+          backgroundColor: Colors.white,
         ),
         child: Icon(icon), // Icon inside the button
       ),
@@ -184,8 +182,14 @@ class _HomePageState extends State<HomePage> {
         child: Row(
           children: [
             buildSearchBar(context),
-            buildActionButton(Icons.shopping_cart_outlined, 0.0, 0.0),
-            buildActionButton(Icons.notifications_outlined, 0.0, 0.0)
+            buildActionButton(Icons.shopping_cart_outlined, 0.0, 0.0, () async {
+              await Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CartPage()),
+              );
+              setState(() {});
+            }),
+            buildActionButton(Icons.notifications_outlined, 0.0, 0.0, () {})
           ],
         ),
       ),

@@ -110,10 +110,8 @@ class _SearchPageState extends State<SearchPage> {
                             setState(() {});
                           },
                           child: ProductCard2(
-                            name: name,
-                            price: price,
-                            imageURL: imageURL,
-                            fav: fav,
+                           productModel: products[index],
+                            size: 100.0,
                           ),
                         ));
                   },

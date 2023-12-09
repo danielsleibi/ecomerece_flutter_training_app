@@ -1,3 +1,4 @@
+import 'package:ecommerce_task/models/cart_model.dart';
 import 'package:ecommerce_task/models/product_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -58,7 +59,7 @@ class _ProductPageState extends State<ProductPage> {
         });
       },
       child: Container(
-        width: size/1.3,
+        width: size / 1.3,
         height: size,
         decoration: BoxDecoration(
           border: Border.all(color: Colors.grey),
@@ -88,9 +89,9 @@ class _ProductPageState extends State<ProductPage> {
 
   @override
   Widget build(BuildContext context) {
+    CartModel cart = CartModel.instance;
     return Scaffold(
       extendBodyBehindAppBar: true,
-      
       appBar: AppBar(
         backgroundColor: Colors.transparent,
       ),
@@ -114,7 +115,11 @@ class _ProductPageState extends State<ProductPage> {
             width: MediaQuery.of(context).size.width,
             child: Container(
               width: 150,
-              height: MediaQuery.of(context).size.height - 270 - kToolbarHeight - kBottomNavigationBarHeight -60,
+              height: MediaQuery.of(context).size.height -
+                  270 -
+                  kToolbarHeight -
+                  kBottomNavigationBarHeight -
+                  60,
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -140,7 +145,9 @@ class _ProductPageState extends State<ProductPage> {
                               fontSize: 17.0,
                             ),
                           ),
-                          SizedBox(width: 20.0,),
+                          SizedBox(
+                            width: 20.0,
+                          ),
                           Visibility(
                               visible: widget.productModel.discount != 0.0,
                               child: Text(
@@ -151,7 +158,9 @@ class _ProductPageState extends State<ProductPage> {
                                     fontSize: 12.0,
                                     fontWeight: FontWeight.w500),
                               )),
-                          SizedBox(width: 20.0,),
+                          SizedBox(
+                            width: 20.0,
+                          ),
                           Visibility(
                               visible: widget.productModel.discount != 0.0,
                               child: Container(
@@ -166,7 +175,9 @@ class _ProductPageState extends State<ProductPage> {
                                       fontWeight: FontWeight.w500),
                                 ),
                               )),
-                          Expanded(child: SizedBox(),),
+                          Expanded(
+                            child: SizedBox(),
+                          ),
                           GestureDetector(
                             onTap: () {
                               setState(() {
@@ -229,7 +240,6 @@ class _ProductPageState extends State<ProductPage> {
                       Text('Size'),
                       SizedBox(height: 10),
                       buildSizeSelection(50.0),
-
                     ],
                   ),
                 ),
@@ -244,9 +254,27 @@ class _ProductPageState extends State<ProductPage> {
         child: SizedBox(
           width: double.infinity,
           child: FloatingActionButton.extended(
-            onPressed: () {},
-            label: Text('Add to cart'),
-            icon: Icon(Icons.add_shopping_cart),
+            onPressed: () {
+              CartModel cart = CartModel.instance;
+              bool inCart = cart.isInCart(widget.productModel);
+              if(inCart) {
+                setState(() {
+                  cart.removeFromCart(widget.productModel);
+                });
+
+                return;
+              }
+              setState(() {
+                cart.addToCart(widget.productModel);
+              });
+
+            },
+            label: cart.isInCart(widget.productModel)
+                ? Text('Remove from Cart')
+                : Text('Add to cart'),
+            icon: cart.isInCart(widget.productModel)
+                ? Icon(Icons.remove_shopping_cart_outlined)
+                : Icon(Icons.add_shopping_cart),
           ),
         ),
       ),

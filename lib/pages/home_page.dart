@@ -194,14 +194,14 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       buildCategorySection(context, widget.categoryList, 'Special for you'),
-      buildProductSection(context, productsList, 'Featured Products'),
+      buildProductSection(context, productsList.toList()..shuffle(), 'Featured Products'),
       buildProductSection(
-          context, productsList + productsList, 'Best Selling Products'),
-      buildProductSection(context, productsList, 'Best Selling Products'),
-      buildProductSection(context, productsList, 'Best Selling Products'),
-      buildProductSection(context, productsList + productsList + productsList,
-          'Best Selling Products'),
-      buildProductSection(context, productsList, 'Best Selling Products'),
+          context, productsList.where((element) => element.name == 'Yummy Burger' || element.name == 'Nike Shoes' || element.name == 'Coco Chanel').toList(), 'Best Selling Products'),
+      buildProductSection(context, productsList.where((element) => element.name == 'IPhone 15 Pro Max' || element.name == 'Samsung Galaxy S23 Ultra').toList(), 'Need a new phone?'),
+      buildProductSection(context, productsList.where((element) => element.name == 'Dove Body Care' || element.name == 'Coco Chanel').toList(), 'Beauty'),
+      buildProductSection(context, productsList.where((element) => element.name == 'MacBook Pro').toList(),
+          'Best Laptops'),
+      buildProductSection(context, productsList, 'All Products'),
     ]));
   }
 }

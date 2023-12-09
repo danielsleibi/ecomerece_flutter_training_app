@@ -19,6 +19,7 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
+
   TextStyle getTitleTextStyle() {
     return TextStyle(fontSize: 19, fontWeight: FontWeight.bold);
   }
@@ -29,14 +30,11 @@ class _CartPageState extends State<CartPage> {
         child: ListView.builder(
             scrollDirection: Axis.vertical,
             itemBuilder: (context, index) {
-              String name = products[index].name;
-              String price = '\$${products[index].priceInDollar}';
-              String imageURL = products[index].imageURL;
-              bool fav = products[index].fav;
               return Padding(
                   padding:
                       EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
                   child: GestureDetector(
+
                     onTap: () async {
                       await Navigator.push(
                         context,
@@ -47,18 +45,33 @@ class _CartPageState extends State<CartPage> {
                       setState(() {});
                     },
                     child: ProductCard2(
-                      productModel: products[index],
-                      cart_mode: true,
-                      size: 100.0,
-                    ),
+                        productModel: products[index],
+                        cart_mode: true,
+                        size: 100.0,
+                        callback: () {
+                          setState(() {});
+                        }),
                   ));
             },
             itemCount: products.length));
   }
 
+  double calculateTotal(double shippingExtra) {
+    CartModel cart = CartModel.instance;
+    double subtotal = cart.getCartItems().fold(
+        0.0,
+        (previousValue, element) =>
+            previousValue +
+            ((element.priceInDollar -
+                    (element.priceInDollar * element.discount)) *
+                cart.getQuantityFor(element)));
+    return subtotal + (subtotal == 0.0 ? 0 : shippingExtra);
+  }
+
   @override
   Widget build(BuildContext context) {
     CartModel cart = CartModel.instance;
+
     return Scaffold(
       appBar: AppBar(title: Text('Your Cart')),
       body: Column(children: [
@@ -68,7 +81,61 @@ class _CartPageState extends State<CartPage> {
         SizedBox(
           height: 10.0,
         ),
-        Expanded(child: buildProductSection(context, cart.getCartItems(), ''))
+        Expanded(child: buildProductSection(context, cart.getCartItems(), '')),
+        Padding(
+          padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 40.0),
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Subtotal',
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                        Text(
+                          '\$${calculateTotal(0.0).toStringAsFixed(2)}',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )
+                      ],
+                    ),
+                    Divider(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Total',
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                        Text(
+                          '\$${calculateTotal(20.0).toStringAsFixed(2)}',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(
+                width: 20.0,
+              ),
+              Expanded(
+                  child: FilledButton(
+                onPressed: () {},
+                child: Text('Check Out'),
+                style: FilledButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                        5.0), // Set the border radius to zero
+                  ),
+                ),
+              ))
+            ],
+          ),
+        )
       ]),
     );
   }

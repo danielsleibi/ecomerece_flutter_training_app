@@ -49,6 +49,10 @@ class CartModel {
   }
 
   void removeOneLessFor(ProductModel product) {
-    _cartItemsQuantity[product] = (_cartItemsQuantity[product] ?? 0) - 1;
+    int current = _cartItemsQuantity[product] ?? 0;
+    if(current - 1 < 1){
+      return;
+    }
+    _cartItemsQuantity[product] = current - 1;
   }
 }

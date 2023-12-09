@@ -48,7 +48,10 @@ class ProductCard extends StatelessWidget {
               child: Text(
                 name,
                 style: getNameTextStyle(),
+                overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.left,
+                softWrap: true,
+                maxLines: 2,
               )),
           SizedBox(
               height: 25,

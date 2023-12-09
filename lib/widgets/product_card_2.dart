@@ -8,11 +8,17 @@ class ProductCard2 extends StatefulWidget {
       {super.key,
       required this.productModel,
       this.size = 100,
-      this.cart_mode = false});
+      this.cart_mode = false, this.callback = _defaultCallback});
 
   final ProductModel productModel;
   final double size;
   final bool cart_mode;
+  final Function() callback;
+
+  // Default callback function
+  static void _defaultCallback() {
+    print('Default callback');
+  }
 
   @override
   State<ProductCard2> createState() => _ProductCard2State();
@@ -84,6 +90,22 @@ class _ProductCard2State extends State<ProductCard2> {
                     style: getPriceTextStyle(),
                     textAlign: TextAlign.left,
                   )),
+              Visibility(
+
+                visible:widget.productModel.discount != 0.0 ,
+                child: Container(
+                  padding: EdgeInsets.all(2.0),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.red)),
+                  child: SizedBox(child: Text(
+                    '-${(widget.productModel.discount * 100).toInt()}% Off',
+                    style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 8.0,
+                        fontWeight: FontWeight.w500),
+                  ),),
+                ),
+              )
             ],
           ),
           Expanded(child: SizedBox()),
@@ -124,6 +146,7 @@ class _ProductCard2State extends State<ProductCard2> {
                       onTap: () {
                         setState(() {
                           cart.addOneMoreFor(widget.productModel);
+                          widget.callback();
                         });
                       },
                       child: Icon(Icons.add),
@@ -133,6 +156,7 @@ class _ProductCard2State extends State<ProductCard2> {
                       onTap: () {
                         setState(() {
                           cart.removeOneLessFor(widget.productModel);
+                          widget.callback();
                         });
                       },
                       child: Icon(Icons.remove),

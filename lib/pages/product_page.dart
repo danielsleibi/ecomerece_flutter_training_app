@@ -89,7 +89,11 @@ class _ProductPageState extends State<ProductPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      extendBodyBehindAppBar: true,
+      
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+      ),
       body: Stack(
         children: [
           Column(

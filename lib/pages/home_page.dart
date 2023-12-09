@@ -112,7 +112,7 @@ class _HomePageState extends State<HomePage> {
                 String imageURL = products[index].imageURL;
                 bool fav = products[index].fav;
                 return Padding(
-                    padding: EdgeInsets.only(left: 10.0),
+                    padding: EdgeInsets.only(left: 10.0, right: products.length - 1== index ? 10.0 : 0.0),
                     child: GestureDetector(
                       onTap: () async {
                         await Navigator.push(

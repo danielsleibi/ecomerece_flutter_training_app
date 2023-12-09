@@ -1,3 +1,4 @@
+import 'package:ecommerce_task/pages/product_page.dart';
 import 'package:ecommerce_task/widgets/category_card.dart';
 import 'package:ecommerce_task/widgets/ecommerce_textfield.dart';
 import 'package:ecommerce_task/models/category_model.dart';
@@ -17,22 +18,23 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
-
   List<ProductModel> productsList = [
     ProductModel(
         name: 'IPhone 15 Pro Max',
-        price: '\$1200.0',
+        priceInDollar: 1200.0,
         imageURL:
-            'https://media.istockphoto.com/id/1426145822/photo/iphone-14-pro-home-screen-with-app-icons.jpg?s=612x612&w=0&k=20&c=oJOjfGgBYg8m1G3VjZL70b8M8I2bSGPC8kdgbosWLws='),
+            'https://media.istockphoto.com/id/1426145822/photo/iphone-14-pro-home-screen-with-app-icons.jpg?s=612x612&w=0&k=20&c=oJOjfGgBYg8m1G3VjZL70b8M8I2bSGPC8kdgbosWLws=',
+        description:
+            'Aluminum design \nCeramic Shield front \nColor-infused glass back',
+        discount: 0.32),
     ProductModel(
         name: 'MacBook Pro',
-        price: '\$1999.99',
+        priceInDollar: 1999.99,
         imageURL:
             'https://media.istockphoto.com/id/1816802404/photo/apple-macbook-pro-15-inch-laptop.jpg?s=612x612&w=0&k=20&c=7QlgjZyh5u8Krm7j6yC9Kak8DbmeiWwJRguWrKIC0cU='),
     ProductModel(
         name: 'Bluetooth Printer',
-        price: '\$200.75',
+        priceInDollar: 200.75,
         imageURL:
             'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzzILzJfqwxfKlI7GGeA05fXQ2XlNx0FRZpw&usqp=CAU'),
   ];
@@ -75,7 +77,6 @@ class _HomePageState extends State<HomePage> {
   TextStyle getTitleTextStyle() {
     return TextStyle(fontSize: 19, fontWeight: FontWeight.bold);
   }
-
 
   Widget buildSearchBar(BuildContext context) {
     return Expanded(
@@ -142,21 +143,28 @@ class _HomePageState extends State<HomePage> {
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 String name = products[index].name;
-                String price = products[index].price;
+                String price = '\$${products[index].priceInDollar}';
                 String imageURL = products[index].imageURL;
+                bool fav = products[index].fav;
                 return Padding(
                     padding: EdgeInsets.only(left: 10.0),
                     child: GestureDetector(
-                      onTap: () {
-                        const snackBar = SnackBar(content: Text('Tap'));
-
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      onTap: () async {
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  ProductPage(productModel: products[index])),
+                        );
+                        setState(() {});
                       },
                       child: ProductCard(
-                          name: name,
-                          price: price,
-                          imageURL: imageURL,
-                          size: 100),
+                        name: name,
+                        price: price,
+                        imageURL: imageURL,
+                        size: 100,
+                        fav: fav,
+                      ),
                     ));
               },
               itemCount: products.length))
@@ -178,7 +186,8 @@ class _HomePageState extends State<HomePage> {
                       style: getTitleTextStyle(), textAlign: TextAlign.left),
                   const Padding(
                     padding: EdgeInsets.only(right: 10.0),
-                    child:  Text('See more', style: TextStyle(color: Colors.grey)),
+                    child:
+                        Text('See more', style: TextStyle(color: Colors.grey)),
                   )
                 ],
               ))),
@@ -202,26 +211,26 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
         child: Column(children: [
-          Padding(
-            padding: EdgeInsets.only(bottom: 35.0),
-            child: Row(
-              children: [
-                buildSearchBar(context),
-                buildActionButton(Icons.shopping_cart_outlined, 0.0, 0.0),
-                buildActionButton(Icons.notifications_outlined, 0.0, 0.0)
-              ],
-            ),
-          ),
-          buildCategorySection(context, categoryList, 'Special for you'),
-          buildProductSection(context, productsList, 'Featured Products'),
-          buildProductSection(
-              context, productsList + productsList, 'Best Selling Products'),
-          buildProductSection(context, productsList, 'Best Selling Products'),
-          buildProductSection(context, productsList, 'Best Selling Products'),
-          buildProductSection(context, productsList + productsList + productsList,
-              'Best Selling Products'),
-          buildProductSection(context, productsList, 'Best Selling Products'),
-        ]));
+      Padding(
+        padding: EdgeInsets.only(bottom: 35.0),
+        child: Row(
+          children: [
+            buildSearchBar(context),
+            buildActionButton(Icons.shopping_cart_outlined, 0.0, 0.0),
+            buildActionButton(Icons.notifications_outlined, 0.0, 0.0)
+          ],
+        ),
+      ),
+      buildCategorySection(context, categoryList, 'Special for you'),
+      buildProductSection(context, productsList, 'Featured Products'),
+      buildProductSection(
+          context, productsList + productsList, 'Best Selling Products'),
+      buildProductSection(context, productsList, 'Best Selling Products'),
+      buildProductSection(context, productsList, 'Best Selling Products'),
+      buildProductSection(context, productsList + productsList + productsList,
+          'Best Selling Products'),
+      buildProductSection(context, productsList, 'Best Selling Products'),
+    ]));
   }
 }
 

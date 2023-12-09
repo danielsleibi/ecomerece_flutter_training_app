@@ -6,12 +6,13 @@ class ProductCard extends StatelessWidget {
       required this.name,
       required this.price,
       required this.imageURL,
-      this.size = 100});
+      this.size = 100, this.fav = false});
 
   final String name;
   final String price;
   final String imageURL;
   final double size;
+  final bool fav;
 
   TextStyle getNameTextStyle() {
     return TextStyle(fontSize: 15.0, fontWeight: FontWeight.w500);
@@ -39,6 +40,7 @@ class ProductCard extends StatelessWidget {
                       'images/heart_icon.png',
                       width: 25, // Set width as needed
                       height: 25, // Set height as needed
+                      color: fav ? Colors.red : Colors.grey,
                     ),
                   ))),
           SizedBox(

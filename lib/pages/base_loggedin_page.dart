@@ -1,5 +1,6 @@
 import 'package:ecommerce_task/pages/categories_page.dart';
 import 'package:ecommerce_task/pages/search_page.dart';
+import 'package:ecommerce_task/pages/wishlist_page.dart';
 import 'package:ecommerce_task/widgets/category_card.dart';
 import 'package:ecommerce_task/widgets/ecommerce_textfield.dart';
 import 'package:ecommerce_task/pages/home_page.dart';
@@ -51,8 +52,8 @@ class _BaseLoggedInPageState extends State<BaseLoggedInPage> {
     _children = [
       HomePage(productsList: productsList),
       CategoriesPage(),
-      SearchPage(productsList: productsList)
-
+      SearchPage(productsList: productsList),
+      WhishlistPage(productsList: productsList),
     ];
 
   }
@@ -61,6 +62,7 @@ class _BaseLoggedInPageState extends State<BaseLoggedInPage> {
     '',
     'Categories',
     'Search',
+    'Whish List'
 
   ];
 

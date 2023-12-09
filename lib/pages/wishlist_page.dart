@@ -10,16 +10,16 @@ import 'package:ecommerce_task/widgets/product_card_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-class SearchPage extends StatefulWidget {
-  const SearchPage({super.key, required this.productsList});
+class WhishlistPage extends StatefulWidget {
+  const WhishlistPage({super.key, required this.productsList});
 
   final List<ProductModel> productsList;
 
   @override
-  State<SearchPage> createState() => _SearchPageState();
+  State<WhishlistPage> createState() => _WhishlistPageState();
 }
 
-class _SearchPageState extends State<SearchPage> {
+class _WhishlistPageState extends State<WhishlistPage> {
 
   TextStyle getTitleTextStyle() {
     return TextStyle(fontSize: 19, fontWeight: FontWeight.bold);
@@ -68,36 +68,36 @@ class _SearchPageState extends State<SearchPage> {
   Widget buildProductSection(
       BuildContext context, List<ProductModel> products, String title) {
     return
-          SizedBox(
-              child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  itemBuilder: (context, index) {
-                    String name = products[index].name;
-                    String price = '\$${products[index].priceInDollar}';
-                    String imageURL = products[index].imageURL;
-                    bool fav = products[index].fav;
-                    return Padding(
-                        padding: EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
-                        child: GestureDetector(
-                          onTap: () async {
-                            await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      ProductPage(productModel: products[index])),
-                            );
-                            setState(() {});
-                          },
-                          child: ProductCard2(
-                            name: name,
-                            price: price,
-                            imageURL: imageURL,
-                            fav: fav,
-                          ),
-                        ));
-                  },
-                  itemCount: products.length))
-        ;
+      SizedBox(
+          child: ListView.builder(
+              scrollDirection: Axis.vertical,
+              itemBuilder: (context, index) {
+                String name = products[index].name;
+                String price = '\$${products[index].priceInDollar}';
+                String imageURL = products[index].imageURL;
+                bool fav = products[index].fav;
+                return Padding(
+                    padding: EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
+                    child: GestureDetector(
+                      onTap: () async {
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  ProductPage(productModel: products[index])),
+                        );
+                        setState(() {});
+                      },
+                      child: ProductCard2(
+                        name: name,
+                        price: price,
+                        imageURL: imageURL,
+                        fav: fav,
+                      ),
+                    ));
+              },
+              itemCount: products.length))
+    ;
   }
 
   @override
@@ -112,7 +112,7 @@ class _SearchPageState extends State<SearchPage> {
         ),
       ),
       Expanded(
-          child: buildProductSection(context, widget.productsList, ''))
+          child: buildProductSection(context, widget.productsList.where((element) => element.fav == true).toList(), ''))
     ]);
   }
 }

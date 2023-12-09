@@ -1,4 +1,5 @@
 import 'package:ecommerce_task/pages/categories_page.dart';
+import 'package:ecommerce_task/pages/search_page.dart';
 import 'package:ecommerce_task/widgets/category_card.dart';
 import 'package:ecommerce_task/widgets/ecommerce_textfield.dart';
 import 'package:ecommerce_task/pages/home_page.dart';
@@ -18,16 +19,48 @@ class BaseLoggedInPage extends StatefulWidget {
 }
 
 class _BaseLoggedInPageState extends State<BaseLoggedInPage> {
-  int _selectedIndex = 0;
-  final List<Widget> _children = [
-    HomePage(title: 'Home Page'),
-    CategoriesPage()
 
+  List<ProductModel> productsList = [
+    ProductModel(
+        name: 'IPhone 15 Pro Max',
+        priceInDollar: 1200.0,
+        imageURL:
+        'https://media.istockphoto.com/id/1426145822/photo/iphone-14-pro-home-screen-with-app-icons.jpg?s=612x612&w=0&k=20&c=oJOjfGgBYg8m1G3VjZL70b8M8I2bSGPC8kdgbosWLws=',
+        description:
+        'Aluminum design \nCeramic Shield front \nColor-infused glass back',
+        discount: 0.32),
+    ProductModel(
+        name: 'MacBook Pro',
+        priceInDollar: 1999.99,
+        imageURL:
+        'https://media.istockphoto.com/id/1816802404/photo/apple-macbook-pro-15-inch-laptop.jpg?s=612x612&w=0&k=20&c=7QlgjZyh5u8Krm7j6yC9Kak8DbmeiWwJRguWrKIC0cU='),
+    ProductModel(
+        name: 'Bluetooth Printer',
+        priceInDollar: 200.75,
+        imageURL:
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzzILzJfqwxfKlI7GGeA05fXQ2XlNx0FRZpw&usqp=CAU'),
   ];
+
+
+  int _selectedIndex = 0;
+  late List<Widget> _children;
+
+  @override
+  void initState() {
+    super.initState();
+    _children = [
+      HomePage(productsList: productsList),
+      CategoriesPage(),
+      SearchPage(productsList: productsList)
+
+    ];
+
+  }
 
   final List<String> _childrenTitles = [
     '',
-    'Categories'
+    'Categories',
+    'Search',
 
   ];
 

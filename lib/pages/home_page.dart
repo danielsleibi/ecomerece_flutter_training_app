@@ -10,34 +10,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key, required this.title});
-  final String title;
+  const HomePage({super.key, required this.productsList});
+  final  List<ProductModel> productsList;
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  List<ProductModel> productsList = [
-    ProductModel(
-        name: 'IPhone 15 Pro Max',
-        priceInDollar: 1200.0,
-        imageURL:
-            'https://media.istockphoto.com/id/1426145822/photo/iphone-14-pro-home-screen-with-app-icons.jpg?s=612x612&w=0&k=20&c=oJOjfGgBYg8m1G3VjZL70b8M8I2bSGPC8kdgbosWLws=',
-        description:
-            'Aluminum design \nCeramic Shield front \nColor-infused glass back',
-        discount: 0.32),
-    ProductModel(
-        name: 'MacBook Pro',
-        priceInDollar: 1999.99,
-        imageURL:
-            'https://media.istockphoto.com/id/1816802404/photo/apple-macbook-pro-15-inch-laptop.jpg?s=612x612&w=0&k=20&c=7QlgjZyh5u8Krm7j6yC9Kak8DbmeiWwJRguWrKIC0cU='),
-    ProductModel(
-        name: 'Bluetooth Printer',
-        priceInDollar: 200.75,
-        imageURL:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzzILzJfqwxfKlI7GGeA05fXQ2XlNx0FRZpw&usqp=CAU'),
-  ];
+
 
   List<CategoryModel> categoryList = [
     CategoryModel(
@@ -209,6 +190,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    var productsList = widget.productsList;
     return SingleChildScrollView(
         child: Column(children: [
       Padding(

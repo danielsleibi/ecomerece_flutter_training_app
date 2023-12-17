@@ -64,6 +64,8 @@ flutter:
     - images/google_icon.png
     - images/shop.png
     - images/heart_icon.png
+    - images/check.png
+    - images/payment_methods/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

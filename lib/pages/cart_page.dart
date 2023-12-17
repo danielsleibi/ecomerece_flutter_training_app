@@ -1,4 +1,5 @@
 import 'package:ecommerce_task/models/cart_model.dart';
+import 'package:ecommerce_task/pages/checkout_page.dart';
 import 'package:ecommerce_task/pages/product_page.dart';
 import 'package:ecommerce_task/widgets/category_card.dart';
 import 'package:ecommerce_task/widgets/ecommerce_textfield.dart';
@@ -124,9 +125,19 @@ class _CartPageState extends State<CartPage> {
               ),
               Expanded(
                   child: FilledButton(
-                onPressed: () {},
+                onPressed: () {
+                  if(cart.getCartItems().length == 0){
+                    return;
+                  }
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => CheckoutPage()),
+                  );
+                },
                 child: Text('Check Out'),
                 style: FilledButton.styleFrom(
+                  backgroundColor: cart.getCartItems().length > 0 ? Colors.purple : Colors.grey,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(
                         5.0), // Set the border radius to zero

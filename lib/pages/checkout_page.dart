@@ -1,3 +1,7 @@
+import 'dart:math';
+
+import 'package:ecommerce_task/models/notification.dart';
+import 'package:ecommerce_task/models/notifications_model.dart';
 import 'package:ecommerce_task/pages/payment_end_screen.dart';
 import 'package:ecommerce_task/pages/product_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -409,6 +413,14 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
                       CartModel cart = CartModel.instance;
                       cart.clearCart();
+
+
+                      NotificationsModel.instance.addNotification(NotificationModel(
+                          title: 'Payment Confirmed',
+                          description:
+                          'Payment for order ${(Random().nextDouble() * pow(10, 15)).toInt().toString()} has been Confirmed. Please wait for the product to be sent.',
+                          icon: Icons.credit_card_outlined));
+
                       Navigator.popUntil(context, (route) => route.isFirst);
                       Navigator.push(
                         context,

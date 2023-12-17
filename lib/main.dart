@@ -1,8 +1,32 @@
+import 'package:ecommerce_task/models/notification.dart';
+import 'package:ecommerce_task/models/notifications_model.dart';
 import 'package:ecommerce_task/widgets/ecommerce_textfield.dart';
 import 'package:ecommerce_task/pages/login_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
+  NotificationsModel notificationsModel = NotificationsModel.instance;
+
+
+  notificationsModel.addNotification(NotificationModel(
+      title: 'Payment Confirmed',
+      description:
+      'Payment for order 1345627345126 has been Confirmed. Please wait for the product to be sent.',
+      icon: Icons.credit_card_outlined));
+
+  notificationsModel.addNotification(NotificationModel(
+      title: 'Order Success',
+      description:
+      'Order 1345627345126 has been Success. Please wait for the product to be sent.',
+      icon: Icons.fact_check));
+
+  notificationsModel.addNotification(NotificationModel(
+      title: 'Order Arrived',
+      description:
+          'Order 1345627345126 has been completed & arrived at the destination address',
+      icon: Icons.check));
+
+
   runApp(const MyApp());
 }
 
@@ -51,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-           EcommerceButton(title: 'Name', hint: 'Please enter your name'),
+            EcommerceButton(title: 'Name', hint: 'Please enter your name'),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,

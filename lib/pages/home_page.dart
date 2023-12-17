@@ -1,4 +1,5 @@
 import 'package:ecommerce_task/pages/cart_page.dart';
+import 'package:ecommerce_task/pages/notifications_page.dart';
 import 'package:ecommerce_task/pages/product_page.dart';
 import 'package:ecommerce_task/widgets/category_card.dart';
 import 'package:ecommerce_task/widgets/ecommerce_textfield.dart';
@@ -189,7 +190,14 @@ class _HomePageState extends State<HomePage> {
               );
               setState(() {});
             }),
-            buildActionButton(Icons.notifications_outlined, 0.0, 0.0, () {})
+            buildActionButton(Icons.notifications_outlined, 0.0, 0.0, () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        NotificationsPage(),
+                  ));
+            })
           ],
         ),
       ),

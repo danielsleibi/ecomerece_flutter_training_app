@@ -1,3 +1,4 @@
+import 'package:ecommerce_task/pages/cards_page.dart';
 import 'package:ecommerce_task/pages/product_page.dart';
 import 'package:ecommerce_task/widgets/category_card.dart';
 import 'package:ecommerce_task/widgets/ecommerce_textfield.dart';
@@ -85,7 +86,14 @@ class _ProfilePageState extends State<ProfilePage> {
                     SizedBox(
                       height: 10.0,
                     ),
-                    buildItem('My Cards', Icons.credit_card_outlined),
+                    GestureDetector(onTap: (){
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                CardsPage(),
+                          ));
+                    }, child: buildItem('My Cards', Icons.credit_card_outlined)),
                     SizedBox(
                       height: 10.0,
                     ),

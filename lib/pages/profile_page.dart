@@ -1,5 +1,6 @@
 import 'package:ecommerce_task/pages/cards_page.dart';
 import 'package:ecommerce_task/pages/product_page.dart';
+import 'package:ecommerce_task/pages/shipping_address_page.dart';
 import 'package:ecommerce_task/widgets/category_card.dart';
 import 'package:ecommerce_task/widgets/ecommerce_textfield.dart';
 import 'package:ecommerce_task/models/category_model.dart';
@@ -82,7 +83,14 @@ class _ProfilePageState extends State<ProfilePage> {
                     SizedBox(
                       height: 10.0,
                     ),
-                    buildItem('Shipping Address', Icons.my_location_outlined),
+                    GestureDetector(onTap:(){
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                ShippingAddressPage(),
+                          ));
+                    }, child: buildItem('Shipping Address', Icons.my_location_outlined)),
                     SizedBox(
                       height: 10.0,
                     ),

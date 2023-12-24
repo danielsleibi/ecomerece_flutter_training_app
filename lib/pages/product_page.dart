@@ -105,7 +105,7 @@ class _ProductPageState extends State<ProductPage> {
                 width: double.infinity,
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: NetworkImage(widget.productModel.imageURL),
+                        image: NetworkImage(widget.productModel.images!.first),
                         fit: BoxFit.cover)),
               ),
             ],
@@ -137,7 +137,7 @@ class _ProductPageState extends State<ProductPage> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            '\$${widget.productModel.priceInDollar}',
+                            '\$${widget.productModel.price!}',
                             textAlign: TextAlign.left,
                             style: TextStyle(
                               color: Colors.purple,
@@ -151,7 +151,7 @@ class _ProductPageState extends State<ProductPage> {
                           Visibility(
                               visible: widget.productModel.discount != 0.0,
                               child: Text(
-                                '\$${(widget.productModel.priceInDollar * widget.productModel.discount).toInt()}',
+                                '\$${(widget.productModel.price! * widget.productModel.discount).toInt()}',
                                 style: TextStyle(
                                     decoration: TextDecoration.lineThrough,
                                     color: Colors.grey,
@@ -198,7 +198,7 @@ class _ProductPageState extends State<ProductPage> {
                       ),
                       SizedBox(height: 20.0),
                       Text(
-                        widget.productModel.name,
+                        widget.productModel.title ?? 'Failed to load',
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -218,7 +218,7 @@ class _ProductPageState extends State<ProductPage> {
                       ),
                       SizedBox(height: 10.0),
                       Text(
-                        widget.productModel.description,
+                        widget.productModel.description ?? 'Failed to load',
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           color: Colors.grey,

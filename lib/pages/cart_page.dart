@@ -63,8 +63,8 @@ class _CartPageState extends State<CartPage> {
         0.0,
         (previousValue, element) =>
             previousValue +
-            ((element.priceInDollar -
-                    (element.priceInDollar * element.discount)) *
+            ((element.price! -
+                    (element.price! * element.discount)) *
                 cart.getQuantityFor(element)));
     return subtotal + (subtotal == 0.0 ? 0 : shippingExtra);
   }

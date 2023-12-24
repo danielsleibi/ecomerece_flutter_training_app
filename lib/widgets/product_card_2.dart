@@ -61,7 +61,7 @@ class _ProductCard2State extends State<ProductCard2> {
                       topLeft: Radius.circular(15.0),
                       bottomLeft: Radius.circular(15.0)),
                   image: DecorationImage(
-                      image: NetworkImage(widget.productModel.imageURL),
+                      image: NetworkImage(widget.productModel.images!.first),
                       fit: BoxFit.cover)),
               child: Align(
                 alignment: Alignment.bottomRight,
@@ -79,14 +79,14 @@ class _ProductCard2State extends State<ProductCard2> {
               SizedBox(
                   height: 50,
                   child: Text(
-                    widget.productModel.name,
+                    widget.productModel.title ?? 'Failed to load',
                     style: getNameTextStyle(),
                     textAlign: TextAlign.left,
                   )),
               SizedBox(
                   height: 25,
                   child: Text(
-                    '\$${widget.productModel.priceInDollar}',
+                    '\$${widget.productModel.price!}',
                     style: getPriceTextStyle(),
                     textAlign: TextAlign.left,
                   )),

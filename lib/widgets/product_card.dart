@@ -34,8 +34,8 @@ class ProductCard extends StatelessWidget {
         0.0,
         (previousValue, element) =>
             previousValue +
-            ((element.priceInDollar -
-                    (element.priceInDollar * element.discount)) *
+            ((element.price! -
+                    (element.price! * element.discount)) *
                 cart.getQuantityFor(element)));
     return subtotal + (subtotal == 0.0 ? 0 : shippingExtra);
   }
@@ -51,7 +51,9 @@ class ProductCard extends StatelessWidget {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15.0),
                       image: DecorationImage(
-                          image: NetworkImage(imageURL), fit: BoxFit.cover)),
+                          image: NetworkImage(imageURL), fit: BoxFit.cover,
+                          
+                          ),),
                   child: Align(
                     alignment: Alignment.bottomRight,
                     child: Image.asset(

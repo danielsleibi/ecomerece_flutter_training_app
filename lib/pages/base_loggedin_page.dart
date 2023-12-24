@@ -1,4 +1,9 @@
+import 'package:dio/dio.dart';
+import 'package:ecommerce_task/controllers/db/offline/cache_keys.dart';
+import 'package:ecommerce_task/controllers/db/offline/shared_helper.dart';
+import 'package:ecommerce_task/controllers/db/online/dio_helper.dart';
 import 'package:ecommerce_task/pages/categories_page.dart';
+import 'package:ecommerce_task/pages/login_page.dart';
 import 'package:ecommerce_task/pages/profile_page.dart';
 import 'package:ecommerce_task/pages/search_page.dart';
 import 'package:ecommerce_task/pages/wishlist_page.dart';
@@ -21,57 +26,19 @@ class BaseLoggedInPage extends StatefulWidget {
 }
 
 class _BaseLoggedInPageState extends State<BaseLoggedInPage> {
-  List<ProductModel> productsList = [
-    ProductModel(
-        name: 'IPhone 15 Pro Max',
-        priceInDollar: 1200.0,
-        imageURL:
-            'https://media.istockphoto.com/id/1426145822/photo/iphone-14-pro-home-screen-with-app-icons.jpg?s=612x612&w=0&k=20&c=oJOjfGgBYg8m1G3VjZL70b8M8I2bSGPC8kdgbosWLws=',
-        description:
-            'Aluminum design \nCeramic Shield front \nColor-infused glass back',
-        discount: 0.32),
-    ProductModel(
-        name: 'MacBook Pro',
-        priceInDollar: 1999.99,
-        imageURL:
-            'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bWFjYm9vayUyMHByb3xlbnwwfHwwfHx8MA%3D%3D'),
-    ProductModel(
-        name: 'Samsung Galaxy S23 Ultra',
-        priceInDollar: 1000.0,
-        imageURL:
-            'https://darazmobile.com/wp-content/uploads/2022/10/Samsung-Galaxy-S23-Ultra.jpg',
-    description: 'The Samsung Galaxy S23 specs are top-notch including a Snapdragon 8 Gen 2 chipset, 8GB RAM coupled with 128/256GB storage, and a 3900mAh battery.')
-,ProductModel(name: 'Nike Shoes', priceInDollar: 200.0, imageURL: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', discount: 0.05),
-  ProductModel(name: 'Dove Body Care', priceInDollar: 10.0, imageURL: 'https://images.unsplash.com/photo-1625772452859-1c03d5bf1137?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHByb2R1Y3RzfGVufDB8fDB8fHww', description: 'Dove Body care Product, rich nourishment'),
-  ProductModel(name: 'Coco Chanel', priceInDollar: 150.0, imageURL: 'https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzJ8fHByb2R1Y3RzfGVufDB8fDB8fHww', description: 'Satisfy your senses'),
-ProductModel(name: 'Yummy Burger', priceInDollar: 15.0, imageURL: 'https://images.unsplash.com/photo-1550547660-d9450f859349?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjN8fHByb2R1Y3RzfGVufDB8fDB8fHww', description: 'I got hungry developing this')
-  ];
-
-  List<CategoryModel> categoryList = [
-    CategoryModel(
-        name: 'Computers',
-        imageURL:
-            'https://media.istockphoto.com/id/1249219777/photo/shopping-online-concept-parcel-or-paper-cartons-with-a-shopping-cart-logo-in-a-trolley-on-a.jpg?s=612x612&w=0&k=20&c=EWKEahyVLY8iAHyirCCDESHRGW37lqUJ7In0SssNSLE='),
-    CategoryModel(
-        name: 'Phones & Accessories',
-        imageURL:
-            'https://media.istockphoto.com/id/1336136316/photo/woman-online-shopping-on-smart-phone-fashion-clothes-at-home.jpg?s=612x612&w=0&k=20&c=PYDR6zm5uC84qF-6a1dI8G5uXWrTg0wWMcjHSewsAM8='),
-    CategoryModel(
-        name: 'Blah blah',
-        imageURL:
-            'https://media.istockphoto.com/id/1311600080/photo/small-shipping-packages-on-a-notebook-with-the-inscription-online-shopping.jpg?s=612x612&w=0&k=20&c=vDPqIQsqzCvEaEZF2R5IeGz_8Gv-YRI_HzbKux8TaqM='),
-    CategoryModel(
-        name: 'Beauty',
-        imageURL:
-            'https://t4.ftcdn.net/jpg/02/73/55/33/360_F_273553300_sBBxIPpLSn5iC5vC8FwzFh6BJDKvUeaC.jpg'),
-  ];
+  late List<ProductModel> productsList;
+  late List<CategoryModel> categoryList;
 
   int _selectedIndex = 0;
   late List<Widget> _children;
+  bool isLoadingCategories = false;
+  bool isLoadingProducts = false;
 
   @override
   void initState() {
     super.initState();
+    categoryList = [];
+    productsList = [];
     _children = [
       HomePage(productsList: productsList, categoryList: categoryList),
       CategoriesPage(categoryList: categoryList),
@@ -79,7 +46,39 @@ ProductModel(name: 'Yummy Burger', priceInDollar: 15.0, imageURL: 'https://image
       WhishlistPage(productsList: productsList),
       ProfilePage()
     ];
+    
+    setState(() {
+      isLoadingCategories = true;
+      isLoadingProducts = true;
+    });
+    _requestCategoryAPI();
+    _requestProductsAPI();
   }
+
+  void _requestCategoryAPI() async {
+    Response response = await DioHelper.dio.get('categories');
+
+    for (var element in response.data!) {
+      categoryList.add(CategoryModel.fromJson(element));
+    }
+
+    setState(() {
+      isLoadingCategories = false;
+    });
+  }
+
+   void _requestProductsAPI() async {
+    Response response = await DioHelper.dio.get('products');
+
+    for (var element in response.data!) {
+      productsList.add(ProductModel.fromJson(element));
+    }
+
+    setState(() {
+      isLoadingProducts = false;
+    });
+  }
+
 
   final List<String> _childrenTitles = [
     '',
@@ -101,8 +100,21 @@ ProductModel(name: 'Yummy Burger', priceInDollar: 15.0, imageURL: 'https://image
 
   @override
   Widget build(BuildContext context) {
+    if (SharedHelper.prefs.getString(CacheKeys.isLoggedIn.toString()) !=
+        'true') {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (BuildContext context) => LoginPage(title: ''),
+        ),
+      );
+    }
+
+    bool isLoading = isLoadingCategories || isLoadingProducts;
+    
+
     return Scaffold(
       appBar: AppBar(
+        scrolledUnderElevation: 0.0,
         title: Text(
           _childrenTitles.length > _selectedIndex
               ? _childrenTitles[_selectedIndex]
@@ -111,9 +123,13 @@ ProductModel(name: 'Yummy Burger', priceInDollar: 15.0, imageURL: 'https://image
         ),
       ),
       body: SafeArea(
-          child: _children.length > _selectedIndex
-              ? _children[_selectedIndex]
-              : _children[0]),
+          child: isLoading
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : _children.length > _selectedIndex
+                  ? _children[_selectedIndex]
+                  : _children[0]),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(

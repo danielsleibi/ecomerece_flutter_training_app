@@ -1,26 +1,96 @@
+import 'package:dio/dio.dart';
+import 'package:ecommerce_task/controllers/db/offline/cache_keys.dart';
+import 'package:ecommerce_task/controllers/db/offline/shared_helper.dart';
+import 'package:ecommerce_task/controllers/db/online/dio_helper.dart';
 import 'package:ecommerce_task/pages/base_loggedin_page.dart';
 import 'package:ecommerce_task/widgets/ecommerce_textfield.dart';
-import 'package:ecommerce_task/pages/home_page.dart';
 import 'package:ecommerce_task/widgets/on_boarding_page_header.dart';
 import 'package:ecommerce_task/pages/signup_page.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key, required this.title});
   final String title;
 
   @override
-  State<LoginPage> createState() => _MyHomePageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _MyHomePageState extends State<LoginPage> {
-  int _counter = 0;
+class _LoginPageState extends State<LoginPage> {
   bool isChecked = false; // Initial state of the checkbox
+  bool isLoading = false;
+  late TextEditingController _emailController;
+  late TextEditingController _passwordController;
+  @override
+  void initState() {
+    super.initState();
 
-  void _incrementCounter() {
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+
+    super.dispose();
+  }
+
+  void _requestLogin() async {
     setState(() {
-      _counter++;
+      isLoading = true;
     });
+    try {
+      Response response;
+      response = await DioHelper.dio.post('auth/login', data: {
+        'email': _emailController.text,
+        'password': _passwordController.text,
+      });
+
+//  Success, login
+      if (response.statusCode == 201) {
+        await SharedHelper.prefs
+            .setString(CacheKeys.isLoggedIn.toString(), true.toString());
+        await SharedHelper.prefs.setString(
+            CacheKeys.token.toString(), response.data['access_token']);
+        Fluttertoast.showToast(
+          msg: 'Logged In Successfully',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.grey,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (BuildContext context) => BaseLoggedInPage(),
+          ),
+        );
+      }
+
+      print(response.data.toString());
+    } on DioException catch (error) {
+      print(error.toString());
+      String message = 'An unexpected error occured!';
+      if (error.response != null) {
+        if (error.response?.statusCode == 401) {
+          message = 'Invalid Username or Password!';
+        }
+      }
+
+      setState(() {
+        isLoading = false;
+      });
+      Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.grey,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+//  Error, login
+    }
   }
 
   Widget buildSocialMediaButton(
@@ -48,8 +118,10 @@ class _MyHomePageState extends State<LoginPage> {
     );
   }
 
+
   @override
   Widget build(BuildContext context) {
+  
     return Scaffold(
       body: Padding(
           padding: EdgeInsets.only(left: 25.0, right: 25.0),
@@ -64,8 +136,15 @@ class _MyHomePageState extends State<LoginPage> {
                 Padding(
                     padding: EdgeInsets.only(bottom: 20.0),
                     child: EcommerceButton(
-                        title: 'Email Address', hint: 'e.g name@example.com')),
-                EcommerceButton(title: 'Password', hint: 'e.g **********', isPasswordField: true),
+                        title: 'Email Address',
+                        hint: 'e.g name@example.com',
+                        controller: _emailController)),
+                EcommerceButton(
+                  title: 'Password',
+                  hint: 'e.g **********',
+                  isPasswordField: true,
+                  controller: _passwordController,
+                ),
                 Padding(
                   padding: EdgeInsets.only(top: 30.0, bottom: 25.0),
                   child: Row(
@@ -100,14 +179,14 @@ class _MyHomePageState extends State<LoginPage> {
                           height: 50.0,
                           child: FilledButton(
                             onPressed: () {
-                              Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => BaseLoggedInPage()),
-                                    (Route<dynamic> route) => false,
-                              );
+                              FocusScope.of(context).unfocus();
+                              _requestLogin();
                             },
-                            child: Text('Login'),
+                            child: isLoading
+                                ? CircularProgressIndicator(
+                                    color: Colors.grey,
+                                  )
+                                : Text('Login'),
                             style: ButtonStyle(
                                 shape:
                                     MaterialStateProperty.all<OutlinedBorder>(
@@ -135,7 +214,7 @@ class _MyHomePageState extends State<LoginPage> {
                     Text('Don\'t have an account?'),
                     TextButton(
                         onPressed: () {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => SignUpPage()),

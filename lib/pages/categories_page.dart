@@ -71,20 +71,20 @@ class _CategoriesPageState extends State<CategoriesPage> {
                 child: Row(children: [
                   Expanded(
                     child: CategoryCard(
-                      name: categories[index].name,
-                      imageURL: categories[index].imageURL,
+                      name: categories[index].name ?? 'Failed to load name',
+                      imageURL: categories[index].image ?? '',
                       isSized: false,
                     ),
                   )
                 ]));
           }
-          String name = categories[index * 2].name;
-          String imageURL = categories[index * 2].imageURL;
+          String? name = categories[index * 2].name;
+          String imageURL = categories[index * 2].image ?? '';
           String name2 = '';
           String imageURL2 = '';
           if ((index * 2 + 1) < categories.length) {
-            name2 = categories[index * 2 + 1].name;
-            imageURL2 = categories[index * 2 + 1].imageURL;
+            name2 = categories[index * 2 + 1].name!;
+            imageURL2 = categories[index * 2 + 1].image ?? '';
           }
 
           return Padding(
@@ -93,7 +93,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                 children: [
                   Expanded(
                     child: CategoryCard(
-                      name: name,
+                      name: name ?? 'Failed to load',
                       imageURL: imageURL,
                       isSized: false,
                     ),

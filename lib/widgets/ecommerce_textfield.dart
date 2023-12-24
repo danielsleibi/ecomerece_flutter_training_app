@@ -5,10 +5,13 @@ class EcommerceButton extends StatefulWidget {
       {super.key,
       required this.title,
       required this.hint,
-      this.isPasswordField = false});
+      this.isPasswordField = false,
+      this.controller});
+
   final String title;
   final String hint;
   final bool isPasswordField;
+  final TextEditingController? controller;
 
   @override
   State<EcommerceButton> createState() => _EcommerceButtonState();
@@ -41,6 +44,7 @@ class _EcommerceButtonState extends State<EcommerceButton> {
           child: SizedBox(
               height: 50.0,
               child: TextField(
+                  controller: widget.controller,
                   obscureText: widget.isPasswordField,
                   decoration: InputDecoration(
                     filled: true,

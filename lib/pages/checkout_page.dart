@@ -48,9 +48,12 @@ class _CheckoutPageState extends State<CheckoutPage> {
     return ListView.builder(
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
-          String name = products[index].name;
-          String price = '\$${products[index].priceInDollar}';
-          String imageURL = products[index].imageURL;
+          String name = products[index].title ?? 'Failed to load';
+          String price = '\$${products[index].price!}';
+          String imageURL = products[index].images!.first;
+          if(imageURL.isEmpty) {
+            imageURL = 'https://t4.ftcdn.net/jpg/02/51/95/53/360_F_251955356_FAQH0U1y1TZw3ZcdPGybwUkH90a3VAhb.jpg';
+          }
           bool fav = products[index].fav;
           return Padding(
               padding: EdgeInsets.only(
@@ -337,8 +340,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
         0.0,
         (previousValue, element) =>
             previousValue +
-            ((element.priceInDollar -
-                    (element.priceInDollar * element.discount)) *
+            ((element.price! -
+                    (element.price! * element.discount)) *
                 cart.getQuantityFor(element)));
     return subtotal + (subtotal == 0.0 ? 0 : shippingExtra);
   }

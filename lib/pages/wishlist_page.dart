@@ -72,9 +72,9 @@ class _WhishlistPageState extends State<WhishlistPage> {
           child: ListView.builder(
               scrollDirection: Axis.vertical,
               itemBuilder: (context, index) {
-                String name = products[index].name;
-                String price = '\$${products[index].priceInDollar}';
-                String imageURL = products[index].imageURL;
+                String name = products[index].title ?? 'Failed to load';
+                String price = '\$${products[index].price!}';
+                String imageURL = products[index].images!.first;
                 bool fav = products[index].fav;
                 return Padding(
                     padding: EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),

@@ -108,9 +108,12 @@ class _HomePageState extends State<HomePage> {
           child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
-                String name = products[index].name;
-                String price = '\$${products[index].priceInDollar}';
-                String imageURL = products[index].imageURL;
+                String name = products[index].title ?? 'Failed to load';
+                String price = '\$${products[index].price!}';
+                String imageURL = products[index].images!.first;
+                if(imageURL.isEmpty){
+                  imageURL = 'https://t4.ftcdn.net/jpg/02/51/95/53/360_F_251955356_FAQH0U1y1TZw3ZcdPGybwUkH90a3VAhb.jpg';
+                }
                 bool fav = products[index].fav;
                 return Padding(
                     padding: EdgeInsets.only(left: 10.0, right: products.length - 1== index ? 10.0 : 0.0),
@@ -162,8 +165,8 @@ class _HomePageState extends State<HomePage> {
           child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
-                String name = categories[index].name;
-                String imageURL = categories[index].imageURL;
+                String name = categories[index].name ?? 'Failed to load';
+                String imageURL = categories[index].image ?? '';
                 return Padding(
                     padding: EdgeInsets.only(left: 10.0),
                     child: CategoryCard(
@@ -204,10 +207,10 @@ class _HomePageState extends State<HomePage> {
       buildCategorySection(context, widget.categoryList, 'Special for you'),
       buildProductSection(context, productsList.toList()..shuffle(), 'Featured Products'),
       buildProductSection(
-          context, productsList.where((element) => element.name == 'Yummy Burger' || element.name == 'Nike Shoes' || element.name == 'Coco Chanel').toList(), 'Best Selling Products'),
-      buildProductSection(context, productsList.where((element) => element.name == 'IPhone 15 Pro Max' || element.name == 'Samsung Galaxy S23 Ultra').toList(), 'Need a new phone?'),
-      buildProductSection(context, productsList.where((element) => element.name == 'Dove Body Care' || element.name == 'Coco Chanel').toList(), 'Beauty'),
-      buildProductSection(context, productsList.where((element) => element.name == 'MacBook Pro').toList(),
+          context, productsList.toList()..shuffle(), 'Best Selling Products'),
+      buildProductSection(context, productsList.toList()..shuffle(), 'Need a new phone?'),
+      buildProductSection(context,productsList.toList()..shuffle(), 'Beauty'),
+      buildProductSection(context, productsList.toList()..shuffle(),
           'Best Laptops'),
       buildProductSection(context, productsList, 'All Products'),
     ]));

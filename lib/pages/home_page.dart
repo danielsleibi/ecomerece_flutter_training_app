@@ -1,15 +1,11 @@
+import 'package:ecommerce_task/models/category_model.dart';
+import 'package:ecommerce_task/models/product_model.dart';
 import 'package:ecommerce_task/pages/cart_page.dart';
 import 'package:ecommerce_task/pages/notifications_page.dart';
 import 'package:ecommerce_task/pages/product_page.dart';
 import 'package:ecommerce_task/widgets/category_card.dart';
-import 'package:ecommerce_task/widgets/ecommerce_textfield.dart';
-import 'package:ecommerce_task/models/category_model.dart';
-import 'package:ecommerce_task/models/product_model.dart';
-import 'package:ecommerce_task/widgets/on_boarding_page_header.dart';
 import 'package:ecommerce_task/widgets/product_card.dart';
-import 'package:ecommerce_task/pages/signup_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage(

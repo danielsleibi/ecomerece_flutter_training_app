@@ -1,5 +1,3 @@
-import 'package:ecommerce_task/widgets/ecommerce_textfield.dart';
-import 'package:ecommerce_task/pages/login_page.dart';
 import 'package:ecommerce_task/widgets/on_boarding_page_header.dart';
 import 'package:ecommerce_task/widgets/pin_input.dart';
 import 'package:flutter/material.dart';

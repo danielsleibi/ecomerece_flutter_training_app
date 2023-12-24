@@ -1,14 +1,7 @@
-import 'package:ecommerce_task/pages/product_page.dart';
-import 'package:ecommerce_task/widgets/category_card.dart';
-import 'package:ecommerce_task/widgets/ecommerce_textfield.dart';
-import 'package:ecommerce_task/models/category_model.dart';
 import 'package:ecommerce_task/models/product_model.dart';
-import 'package:ecommerce_task/widgets/on_boarding_page_header.dart';
-import 'package:ecommerce_task/widgets/product_card.dart';
-import 'package:ecommerce_task/pages/signup_page.dart';
+import 'package:ecommerce_task/pages/product_page.dart';
 import 'package:ecommerce_task/widgets/product_card_2.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 class WhishlistPage extends StatefulWidget {
   const WhishlistPage({super.key, required this.productsList});
@@ -72,10 +65,6 @@ class _WhishlistPageState extends State<WhishlistPage> {
           child: ListView.builder(
               scrollDirection: Axis.vertical,
               itemBuilder: (context, index) {
-                String name = products[index].title ?? 'Failed to load';
-                String price = '\$${products[index].price!}';
-                String imageURL = products[index].images!.first;
-                bool fav = products[index].fav;
                 return Padding(
                     padding: EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
                     child: GestureDetector(

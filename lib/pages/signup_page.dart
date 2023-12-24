@@ -1,13 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:ecommerce_task/controllers/db/offline/cache_keys.dart';
-import 'package:ecommerce_task/controllers/db/offline/shared_helper.dart';
 import 'package:ecommerce_task/controllers/db/online/dio_helper.dart';
-import 'package:ecommerce_task/pages/base_loggedin_page.dart';
-import 'package:ecommerce_task/pages/home_page.dart';
-import 'package:ecommerce_task/widgets/ecommerce_textfield.dart';
 import 'package:ecommerce_task/pages/login_page.dart';
+import 'package:ecommerce_task/widgets/ecommerce_textfield.dart';
 import 'package:ecommerce_task/widgets/on_boarding_page_header.dart';
-import 'package:ecommerce_task/pages/validation_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 

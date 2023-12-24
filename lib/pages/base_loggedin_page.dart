@@ -2,21 +2,15 @@ import 'package:dio/dio.dart';
 import 'package:ecommerce_task/controllers/db/offline/cache_keys.dart';
 import 'package:ecommerce_task/controllers/db/offline/shared_helper.dart';
 import 'package:ecommerce_task/controllers/db/online/dio_helper.dart';
+import 'package:ecommerce_task/models/category_model.dart';
+import 'package:ecommerce_task/models/product_model.dart';
 import 'package:ecommerce_task/pages/categories_page.dart';
+import 'package:ecommerce_task/pages/home_page.dart';
 import 'package:ecommerce_task/pages/login_page.dart';
 import 'package:ecommerce_task/pages/profile_page.dart';
 import 'package:ecommerce_task/pages/search_page.dart';
 import 'package:ecommerce_task/pages/wishlist_page.dart';
-import 'package:ecommerce_task/widgets/category_card.dart';
-import 'package:ecommerce_task/widgets/ecommerce_textfield.dart';
-import 'package:ecommerce_task/pages/home_page.dart';
-import 'package:ecommerce_task/models/category_model.dart';
-import 'package:ecommerce_task/models/product_model.dart';
-import 'package:ecommerce_task/widgets/on_boarding_page_header.dart';
-import 'package:ecommerce_task/widgets/product_card.dart';
-import 'package:ecommerce_task/pages/signup_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 class BaseLoggedInPage extends StatefulWidget {
   const BaseLoggedInPage({super.key});

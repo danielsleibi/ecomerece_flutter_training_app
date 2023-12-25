@@ -1,12 +1,11 @@
 import 'package:ecommerce_task/models/product_model.dart';
 import 'package:ecommerce_task/pages/product_page.dart';
+import 'package:ecommerce_task/repositories/product_repository.dart';
 import 'package:ecommerce_task/widgets/product_card_2.dart';
 import 'package:flutter/material.dart';
 
 class WhishlistPage extends StatefulWidget {
-  const WhishlistPage({super.key, required this.productsList});
-
-  final List<ProductModel> productsList;
+  const WhishlistPage({super.key});
 
   @override
   State<WhishlistPage> createState() => _WhishlistPageState();
@@ -99,7 +98,7 @@ class _WhishlistPageState extends State<WhishlistPage> {
         ),
       ),
       Expanded(
-          child: buildProductSection(context, widget.productsList.where((element) => element.fav == true).toList(), ''))
+          child: buildProductSection(context, ProductRepository.instance.getProducts().where((element) => element.fav == true).toList(), ''))
     ]);
   }
 }

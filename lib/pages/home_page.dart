@@ -3,14 +3,13 @@ import 'package:ecommerce_task/models/product_model.dart';
 import 'package:ecommerce_task/pages/cart_page.dart';
 import 'package:ecommerce_task/pages/notifications_page.dart';
 import 'package:ecommerce_task/pages/product_page.dart';
+import 'package:ecommerce_task/repositories/product_repository.dart';
 import 'package:ecommerce_task/widgets/category_card.dart';
 import 'package:ecommerce_task/widgets/product_card.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage(
-      {super.key, required this.productsList, required this.categoryList});
-  final List<ProductModel> productsList;
+  const HomePage({super.key, required this.categoryList});
   final List<CategoryModel> categoryList;
 
   @override
@@ -107,12 +106,15 @@ class _HomePageState extends State<HomePage> {
                 String name = products[index].title ?? 'Failed to load';
                 String price = '\$${products[index].price!}';
                 String imageURL = products[index].images!.first;
-                if(imageURL.isEmpty){
-                  imageURL = 'https://t4.ftcdn.net/jpg/02/51/95/53/360_F_251955356_FAQH0U1y1TZw3ZcdPGybwUkH90a3VAhb.jpg';
+                if (imageURL.isEmpty) {
+                  imageURL =
+                      'https://t4.ftcdn.net/jpg/02/51/95/53/360_F_251955356_FAQH0U1y1TZw3ZcdPGybwUkH90a3VAhb.jpg';
                 }
                 bool fav = products[index].fav;
                 return Padding(
-                    padding: EdgeInsets.only(left: 10.0, right: products.length - 1== index ? 10.0 : 0.0),
+                    padding: EdgeInsets.only(
+                        left: 10.0,
+                        right: products.length - 1 == index ? 10.0 : 0.0),
                     child: GestureDetector(
                       onTap: () async {
                         await Navigator.push(
@@ -174,7 +176,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var productsList = widget.productsList;
+    var productsList = ProductRepository.instance.getProducts();
     return SingleChildScrollView(
         child: Column(children: [
       Padding(
@@ -193,21 +195,22 @@ class _HomePageState extends State<HomePage> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        NotificationsPage(),
+                    builder: (context) => NotificationsPage(),
                   ));
             })
           ],
         ),
       ),
       buildCategorySection(context, widget.categoryList, 'Special for you'),
-      buildProductSection(context, productsList.toList()..shuffle(), 'Featured Products'),
+      buildProductSection(
+          context, productsList.toList()..shuffle(), 'Featured Products'),
       buildProductSection(
           context, productsList.toList()..shuffle(), 'Best Selling Products'),
-      buildProductSection(context, productsList.toList()..shuffle(), 'Need a new phone?'),
-      buildProductSection(context,productsList.toList()..shuffle(), 'Beauty'),
-      buildProductSection(context, productsList.toList()..shuffle(),
-          'Best Laptops'),
+      buildProductSection(
+          context, productsList.toList()..shuffle(), 'Need a new phone?'),
+      buildProductSection(context, productsList.toList()..shuffle(), 'Beauty'),
+      buildProductSection(
+          context, productsList.toList()..shuffle(), 'Best Laptops'),
       buildProductSection(context, productsList, 'All Products'),
     ]));
   }

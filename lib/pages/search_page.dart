@@ -2,14 +2,13 @@ import 'package:dio/dio.dart';
 import 'package:ecommerce_task/controllers/db/online/dio_helper.dart';
 import 'package:ecommerce_task/pages/product_page.dart';
 import 'package:ecommerce_task/models/product_model.dart';
+import 'package:ecommerce_task/repositories/product_repository.dart';
 import 'package:ecommerce_task/widgets/product_card_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 class SearchPage extends StatefulWidget {
-  const SearchPage({super.key, required this.productsList});
-
-  final List<ProductModel> productsList;
+  const SearchPage({super.key});
 
   @override
   State<SearchPage> createState() => _SearchPageState();
@@ -26,7 +25,7 @@ class _SearchPageState extends State<SearchPage> {
   @override
   void initState() {
     super.initState();
-    _productList = widget.productsList;
+    _productList = ProductRepository.instance.getProducts();
     _isLoadingProducts = false;
     _searchController = TextEditingController();
     _isFilterOpen = false;
@@ -148,8 +147,8 @@ class _SearchPageState extends State<SearchPage> {
             scrollDirection: Axis.vertical,
             itemBuilder: (context, index) {
               return Padding(
-                  padding:
-                      EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0, top: 10.0),
+                  padding: EdgeInsets.only(
+                      left: 10.0, right: 10.0, bottom: 10.0, top: 10.0),
                   child: GestureDetector(
                     onTap: () async {
                       await Navigator.push(
@@ -170,27 +169,20 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   void _requestProductSearch(bool updateSlider) async {
-    String params = '';
-
-    if (_searchController.text.isNotEmpty) {
-      params += 'title=${_searchController.text}${_isFilterOpen ? '&' : ''}';
+    ProductRepository repo = ProductRepository.instance;
+    String? title;
+    RangeValues? priceRange;
+    if(_searchController.text.isNotEmpty) {
+      title = _searchController.text;
     }
     if (_isFilterOpen && !updateSlider) {
-      params +=
-          'price_min=${_values.start.toInt()}&price_max=${_values.end.toInt()}';
+      priceRange = RangeValues(_values.start, _values.end);
     }
-    print(params);
-    Response response = await DioHelper.dio.get('products/?${params}');
-    _productList.clear();
-    if (response.data == null) {
-      return;
-    }
-
-    for (var element in response.data!) {
-      _productList.add(ProductModel.fromJson(element));
-    }
+    List<ProductModel> searchResults =
+        await repo.searchProducts(title, priceRange);
 
     setState(() {
+      _productList = searchResults;
       if (updateSlider) {
         updateMaxMinValues();
         _values = RangeValues(minValue, maxValue);

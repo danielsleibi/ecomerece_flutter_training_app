@@ -10,6 +10,7 @@ import 'package:ecommerce_task/pages/login_page.dart';
 import 'package:ecommerce_task/pages/profile_page.dart';
 import 'package:ecommerce_task/pages/search_page.dart';
 import 'package:ecommerce_task/pages/wishlist_page.dart';
+import 'package:ecommerce_task/repositories/product_repository.dart';
 import 'package:flutter/material.dart';
 
 class BaseLoggedInPage extends StatefulWidget {
@@ -20,7 +21,6 @@ class BaseLoggedInPage extends StatefulWidget {
 }
 
 class _BaseLoggedInPageState extends State<BaseLoggedInPage> {
-  late List<ProductModel> productsList;
   late List<CategoryModel> categoryList;
 
   int _selectedIndex = 0;
@@ -32,15 +32,15 @@ class _BaseLoggedInPageState extends State<BaseLoggedInPage> {
   void initState() {
     super.initState();
     categoryList = [];
-    productsList = [];
+
     _children = [
-      HomePage(productsList: productsList, categoryList: categoryList),
+      HomePage(categoryList: categoryList),
       CategoriesPage(categoryList: categoryList),
-      SearchPage(productsList: productsList),
-      WhishlistPage(productsList: productsList),
+      SearchPage(),
+      WhishlistPage(),
       ProfilePage()
     ];
-    
+
     setState(() {
       isLoadingCategories = true;
       isLoadingProducts = true;
@@ -61,18 +61,13 @@ class _BaseLoggedInPageState extends State<BaseLoggedInPage> {
     });
   }
 
-   void _requestProductsAPI() async {
-    Response response = await DioHelper.dio.get('products');
-
-    for (var element in response.data!) {
-      productsList.add(ProductModel.fromJson(element));
-    }
+  void _requestProductsAPI() async {
+    await ProductRepository.instance.fetchProductData();
 
     setState(() {
       isLoadingProducts = false;
     });
   }
-
 
   final List<String> _childrenTitles = [
     '',
@@ -104,7 +99,6 @@ class _BaseLoggedInPageState extends State<BaseLoggedInPage> {
     }
 
     bool isLoading = isLoadingCategories || isLoadingProducts;
-    
 
     return Scaffold(
       appBar: AppBar(

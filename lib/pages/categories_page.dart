@@ -1,4 +1,5 @@
 import 'package:ecommerce_task/models/category_model.dart';
+import 'package:ecommerce_task/pages/category_products_page.dart';
 import 'package:ecommerce_task/widgets/category_card.dart';
 import 'package:flutter/material.dart';
 
@@ -10,8 +11,6 @@ class CategoriesPage extends StatefulWidget {
 }
 
 class _CategoriesPageState extends State<CategoriesPage> {
-
-
   TextStyle getTitleTextStyle() {
     return TextStyle(fontSize: 19, fontWeight: FontWeight.bold);
   }
@@ -64,10 +63,21 @@ class _CategoriesPageState extends State<CategoriesPage> {
                 padding: EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
                 child: Row(children: [
                   Expanded(
-                    child: CategoryCard(
-                      name: categories[index].name ?? 'Failed to load name',
-                      imageURL: categories[index].image ?? '',
-                      isSized: false,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CategoryProductPage(
+                                catId: categories[index].id ?? -1,
+                              ),
+                            ));
+                      },
+                      child: CategoryCard(
+                        name: categories[index].name ?? 'Failed to load name',
+                        imageURL: categories[index].image ?? '',
+                        isSized: false,
+                      ),
                     ),
                   )
                 ]));
@@ -86,20 +96,42 @@ class _CategoriesPageState extends State<CategoriesPage> {
               child: Row(
                 children: [
                   Expanded(
-                    child: CategoryCard(
-                      name: name ?? 'Failed to load',
-                      imageURL: imageURL,
-                      isSized: false,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CategoryProductPage(
+                                catId: categories[index * 2].id ?? -1,
+                              ),
+                            ));
+                      },
+                      child: CategoryCard(
+                        name: name ?? 'Failed to load',
+                        imageURL: imageURL,
+                        isSized: false,
+                      ),
                     ),
                   ),
                   SizedBox(
                     width: 10.0,
                   ),
                   Expanded(
-                    child: CategoryCard(
-                      name: name2,
-                      imageURL: imageURL2,
-                      isSized: false,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CategoryProductPage(
+                                catId: categories[index * 2 + 1].id ?? -1,
+                              ),
+                            ));
+                      },
+                      child: CategoryCard(
+                        name: name2,
+                        imageURL: imageURL2,
+                        isSized: false,
+                      ),
                     ),
                   ),
                 ],
@@ -120,15 +152,8 @@ class _CategoriesPageState extends State<CategoriesPage> {
         ),
       ),
       Expanded(
-          child: buildCategorySection(context, widget.categoryList, 'Special for you'))
+          child: buildCategorySection(
+              context, widget.categoryList, 'Special for you'))
     ]);
   }
 }
-
-//
-// ProductCard(
-// name: 'Bluetooth Printer',
-// price: '\$200.75',
-// imageURL:
-// 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzzILzJfqwxfKlI7GGeA05fXQ2XlNx0FRZpw&usqp=CAU',
-// size: 100)

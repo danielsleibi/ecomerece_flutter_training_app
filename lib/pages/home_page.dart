@@ -1,6 +1,7 @@
 import 'package:ecommerce_task/models/category_model.dart';
 import 'package:ecommerce_task/models/product_model.dart';
 import 'package:ecommerce_task/pages/cart_page.dart';
+import 'package:ecommerce_task/pages/category_products_page.dart';
 import 'package:ecommerce_task/pages/notifications_page.dart';
 import 'package:ecommerce_task/pages/product_page.dart';
 import 'package:ecommerce_task/repositories/product_repository.dart';
@@ -167,8 +168,19 @@ class _HomePageState extends State<HomePage> {
                 String imageURL = categories[index].image ?? '';
                 return Padding(
                     padding: EdgeInsets.only(left: 10.0),
-                    child: CategoryCard(
-                        name: name, imageURL: imageURL, size: 100));
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CategoryProductPage(
+                                catId: categories[index].id ?? -1,
+                              ),
+                            ));
+                      },
+                      child: CategoryCard(
+                          name: name, imageURL: imageURL, size: 100),
+                    ));
               },
               itemCount: categories.length))
     ]));

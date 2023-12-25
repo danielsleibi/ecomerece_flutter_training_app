@@ -27,7 +27,6 @@ class ProductRepository {
     }
   }
 
-
   Future<List<ProductModel>> searchProducts(
       String? title, RangeValues? price) async {
     if (_productsList.isEmpty) {
@@ -61,8 +60,31 @@ class ProductRepository {
     return resultProducts;
   }
 
-List<ProductModel> getProducts() {
-  return _productsList.values.toList();
-}
+  Future<List<ProductModel>> productForCategory(int categoryId) async {
+    if (_productsList.isEmpty) {
+      await fetchProductData();
+    }
 
+    List<ProductModel> resultProducts = [];
+    String params = 'categoryId=$categoryId';
+    print(params);
+    Response response = await DioHelper.dio.get('products/?$params');
+
+    if (response.data == null) {
+      return [];
+    }
+
+    for (var element in response.data!) {
+      ProductModel searchModel = ProductModel.fromJson(element);
+      if (_productsList.containsKey(searchModel.id)) {
+        resultProducts.add(_productsList[searchModel.id!]!);
+      }
+    }
+
+    return resultProducts;
+  }
+
+  List<ProductModel> getProducts() {
+    return _productsList.values.toList();
+  }
 }

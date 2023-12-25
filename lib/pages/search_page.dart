@@ -4,6 +4,7 @@ import 'package:ecommerce_task/pages/product_page.dart';
 import 'package:ecommerce_task/models/product_model.dart';
 import 'package:ecommerce_task/repositories/product_repository.dart';
 import 'package:ecommerce_task/widgets/product_card_2.dart';
+import 'package:ecommerce_task/widgets/product_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -140,39 +141,11 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-  Widget buildProductSection(
-      BuildContext context, List<ProductModel> products, String title) {
-    return SizedBox(
-        child: ListView.builder(
-            scrollDirection: Axis.vertical,
-            itemBuilder: (context, index) {
-              return Padding(
-                  padding: EdgeInsets.only(
-                      left: 10.0, right: 10.0, bottom: 10.0, top: 10.0),
-                  child: GestureDetector(
-                    onTap: () async {
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                ProductPage(productModel: products[index])),
-                      );
-                      setState(() {});
-                    },
-                    child: ProductCard2(
-                      productModel: products[index],
-                      size: 100.0,
-                    ),
-                  ));
-            },
-            itemCount: products.length));
-  }
-
   void _requestProductSearch(bool updateSlider) async {
     ProductRepository repo = ProductRepository.instance;
     String? title;
     RangeValues? priceRange;
-    if(_searchController.text.isNotEmpty) {
+    if (_searchController.text.isNotEmpty) {
       title = _searchController.text;
     }
     if (_isFilterOpen && !updateSlider) {
@@ -237,7 +210,10 @@ class _SearchPageState extends State<SearchPage> {
           ? Center(
               child: CircularProgressIndicator(),
             )
-          : Expanded(child: buildProductSection(context, _productList, ''))
+          : Expanded(
+              child: ProductList(
+              products: _productList,
+            ))
     ]);
   }
 }
